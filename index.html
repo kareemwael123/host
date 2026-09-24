@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tian Hosting | Premium Minecraft Servers</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        brand: {
+                            900: '#022c22', // Dark Emerald
+                            800: '#064e3b',
+                            500: '#10b981', // Emerald 500
+                            400: '#34d399', // Emerald 400
+                        },
+                        dark: {
+                            900: '#0f172a', // Slate 900
+                            800: '#1e293b', // Slate 800
+                            700: '#334155', // Slate 700
+                        }
+                    },
+                    boxShadow: {
+                        'neon': '0 0 20px rgba(16, 185, 129, 0.4)',
+                        'neon-strong': '0 0 30px rgba(16, 185, 129, 0.7)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #020617; /* Very dark slate */
+            color: #f8fafc;
+        }
+        .plan-card {
+            transition: all 0.3s ease;
+        }
+        .plan-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 25px rgba(16, 185, 129, 0.2);
+            border-color: #10b981;
+        }
+        .glass {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(51, 65, 85, 0.5);
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #10b981; border-radius: 4px; }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col relative selection:bg-brand-500 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed w-full z-40 glass border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-brand-500 flex items-center justify-center shadow-neon">
+                        <i class="fa-solid fa-server text-white text-xl"></i>
+                    </div>
+                    <span class="text-2xl font-black tracking-tight text-white">Tian <span class="text-brand-400">Hosting</span></span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#plans" class="text-gray-300 hover:text-brand-400 transition font-medium">Plans</a>
+                    <a href="#" class="text-gray-300 hover:text-brand-400 transition font-medium">Features</a>
+                    <a href="#" class="text-gray-300 hover:text-brand-400 transition font-medium">Support</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-brand-900/40 via-[#020617] to-[#020617] -z-10"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-500/10 border border-brand-500/30 text-brand-400 text-sm font-semibold mb-6">
+                <span class="relative flex h-2 w-2">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-500"></span>
+                </span>
+                Now accepting manual payments via Discord
+            </div>
+            <h1 class="text-5xl md:text-7xl font-black mb-6 tracking-tight">
+                Unleash Your <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-emerald-200 drop-shadow-[0_0_15px_rgba(16,185,129,0.5)]">Minecraft World</span>
+            </h1>
+            <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+                High-performance NVMe SSDs, extreme CPUs, and 99.9% uptime. Deploy your ultimate server today and manage everything seamlessly.
+            </p>
+            <a href="#plans" class="inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-brand-500 hover:bg-brand-400 text-white font-bold text-lg shadow-neon hover:shadow-neon-strong transition-all duration-300 transform hover:-translate-y-1">
+                View Plans <i class="fa-solid fa-arrow-down"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Plans Section -->
+    <section id="plans" class="py-20 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-black mb-4">Choose Your Tier</h2>
+                <p class="text-gray-400">Scale your server as your community grows.</p>
+            </div>
+
+            <!-- Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="plans-container">
+                <!-- Dynamically populated via JS below, but defined in HTML for structure preview -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Discord Checkout Modal -->
+    <div id="checkout-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-dark-800 border border-brand-500/30 rounded-2xl w-full max-w-md overflow-hidden shadow-2xl transform scale-95 transition-transform duration-300" id="modal-content-box">
+            
+            <!-- Modal Header -->
+            <div class="px-6 py-4 border-b border-white/10 flex justify-between items-center bg-dark-900">
+                <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                    <i class="fa-brands fa-discord text-[#5865F2]"></i> Checkout
+                </h3>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-white transition">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Form View (Step 1) -->
+            <div id="modal-step-form" class="p-6">
+                <div class="mb-6">
+                    <p class="text-sm text-gray-400 mb-1">Selected Plan:</p>
+                    <div class="flex justify-between items-end">
+                        <h4 class="text-2xl font-black text-brand-400" id="modal-plan-name">Plan Name</h4>
+                        <span class="text-xl font-bold text-white" id="modal-plan-price">$0/mo</span>
+                    </div>
+                </div>
+
+                <div class="bg-[#5865F2]/10 border border-[#5865F2]/30 rounded-xl p-4 mb-6">
+                    <p class="text-sm text-gray-300 leading-relaxed">
+                        <i class="fa-solid fa-circle-info text-[#5865F2] mr-1"></i> 
+                        Payments are processed manually via Discord. Enter your Discord username below to create your order.
+                    </p>
+                </div>
+
+                <form id="order-form" onsubmit="handleFormSubmit(event)">
+                    <div class="mb-6">
+                        <label for="discord-user" class="block text-sm font-medium text-gray-300 mb-2">Discord Username <span class="text-red-400">*</span></label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fa-brands fa-discord text-gray-500"></i>
+                            </div>
+                            <input type="text" id="discord-user" required placeholder="e.g., username#1234 or just username" 
+                                class="w-full bg-dark-900 border border-gray-700 text-white rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition">
+                        </div>
+                    </div>
+
+                    <button type="submit" id="submit-btn" class="w-full bg-brand-500 hover:bg-brand-400 text-white font-bold py-3 px-4 rounded-xl shadow-neon transition-colors flex items-center justify-center gap-2">
+                        <span>Confirm Order</span>
+                        <i class="fa-solid fa-check"></i>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Success View (Step 2) -->
+            <div id="modal-step-success" class="p-8 text-center hidden flex-col items-center">
+                <div class="w-16 h-16 bg-brand-500/20 rounded-full flex items-center justify-center mb-4 mx-auto border border-brand-500/50">
+                    <i class="fa-solid fa-check text-3xl text-brand-400"></i>
+                </div>
+                <h4 class="text-2xl font-black text-white mb-2">Order Placed!</h4>
+                
+                <p class="text-gray-300 text-sm mb-6 leading-relaxed">
+                    Payment is currently handled manually via Discord. Please DM <strong class="text-brand-400 bg-brand-500/10 px-2 py-1 rounded">__zito__</strong> on Discord and send your Order ID to pay and receive your server IP.
+                </p>
+
+                <div class="w-full bg-dark-900 border border-gray-700 rounded-xl p-4 mb-6">
+                    <p class="text-xs text-gray-500 mb-1 uppercase tracking-wider font-semibold">Your Order ID</p>
+                    <div class="flex items-center justify-between gap-2">
+                        <code class="text-brand-400 font-mono text-sm break-all" id="success-order-id">ORD-...</code>
+                        <button onclick="copyOrderId()" class="text-gray-400 hover:text-white" title="Copy ID">
+                            <i class="fa-regular fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <button onclick="closeModal()" class="w-full bg-dark-700 hover:bg-dark-600 text-white font-bold py-3 px-4 rounded-xl transition-colors">
+                    Close
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-auto border-t border-white/10 bg-dark-900 pt-10 pb-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 Tian Hosting. All rights reserved.</p>
+            <p class="mt-2">Not an official Minecraft product. Not approved by or associated with Mojang.</p>
+        </div>
+    </footer>
+
+    <!-- Firebase Logic -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // ==========================================
+        // 1. FIREBASE CONFIGURATION (Placeholders)
+        // You can replace these with the actual keys you provided earlier:
+        // apiKey: "AIzaSy...", authDomain: "kareem-8ed77...", etc.
+        // ==========================================
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Initialize Firebase safely
+        let db;
+        try {
+            const app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            console.log("Firebase initialized successfully (Test Mode).");
+        } catch (error) {
+            console.warn("Firebase config is using placeholders or invalid. Orders will be simulated.", error);
+        }
+
+        // ==========================================
+        // 2. PLANS DATA
+        // ==========================================
+        const plans = [
+            { id: 'dirt', name: 'Dirt Plan', ram: '2GB RAM', cpu: '50% CPU', ssd: '8GB NVMe SSD', price: 1, img: 'https://placehold.co/300x200/5c3a21/ffffff?text=Dirt+Block' },
+            { id: 'stone', name: 'Stone Plan', ram: '4GB RAM', cpu: '80% CPU', ssd: '12GB NVMe SSD', price: 2, img: 'https://placehold.co/300x200/7a7a7a/ffffff?text=Stone+Block' },
+            { id: 'iron', name: 'Iron Plan', ram: '6GB RAM', cpu: '100% CPU', ssd: '20GB NVMe SSD', price: 3, img: 'https://placehold.co/300x200/d8d8d8/1a1a1a?text=Iron+Block' },
+            { id: 'diamond', name: 'Diamond Plan', ram: '8GB RAM', cpu: '150% CPU', ssd: '25GB NVMe SSD', price: 4, img: 'https://placehold.co/300x200/4ae8e8/1a1a1a?text=Diamond+Block' },
+            { id: 'blaze', name: 'Blaze Plan', ram: '12GB RAM', cpu: '200% CPU', ssd: '35GB NVMe SSD', price: 7, img: 'https://placehold.co/300x200/ffaa00/1a1a1a?text=Blaze+Block' },
+            { id: 'netherite', name: 'Netherite Plan', ram: '16GB RAM', cpu: '280% CPU', ssd: '50GB NVMe SSD', price: 10, img: 'https://placehold.co/300x200/443f44/ffffff?text=Netherite+Block' },
+            { id: 'titan', name: 'Titan Plan', ram: '32GB RAM', cpu: '400% CPU', ssd: '70GB NVMe SSD', price: 15, img: 'https://placehold.co/300x200/1e172a/ffffff?text=Titan+Block' },
+            { id: 'infinity', name: 'Infinity Plan', ram: '64GB RAM', cpu: '600% CPU', ssd: '100GB NVMe SSD', price: 20, img: 'https://placehold.co/300x200/000000/10b981?text=Infinity+Block' },
+        ];
+
+        // Render Plans to DOM
+        const plansContainer = document.getElementById('plans-container');
+        plans.forEach(plan => {
+            const card = document.createElement('div');
+            card.className = 'plan-card glass rounded-2xl overflow-hidden flex flex-col h-full border border-gray-700/50';
+            card.innerHTML = `
+                <div class="h-40 w-full relative">
+                    <img src="${plan.img}" alt="${plan.name}" class="w-full h-full object-cover opacity-80 mix-blend-luminosity hover:mix-blend-normal transition-all">
+                    <div class="absolute inset-0 bg-gradient-to-t from-dark-800 to-transparent"></div>
+                </div>
+                <div class="p-6 flex flex-col flex-grow">
+                    <h3 class="text-2xl font-black text-white mb-1">${plan.name}</h3>
+                    <div class="text-3xl font-black text-brand-400 mb-6">$${plan.price}<span class="text-sm text-gray-400 font-normal">/mo</span></div>
+                    
+                    <ul class="space-y-3 mb-8 flex-grow">
+                        <li class="flex items-center text-sm text-gray-300">
+                            <i class="fa-solid fa-memory text-brand-400 w-5"></i> ${plan.ram}
+                        </li>
+                        <li class="flex items-center text-sm text-gray-300">
+                            <i class="fa-solid fa-microchip text-brand-400 w-5"></i> ${plan.cpu}
+                        </li>
+                        <li class="flex items-center text-sm text-gray-300">
+                            <i class="fa-solid fa-hard-drive text-brand-400 w-5"></i> ${plan.ssd}
+                        </li>
+                    </ul>
+
+                    <button onclick="openModal('${plan.name}', ${plan.price})" class="w-full bg-white/5 hover:bg-brand-500 text-white border border-brand-500/50 hover:border-brand-500 font-bold py-3 px-4 rounded-xl transition-all duration-300">
+                        Buy Now
+                    </button>
+                </div>
+            `;
+            plansContainer.appendChild(card);
+        });
+
+        // ==========================================
+        // 3. UI STATE & LOGIC
+        // ==========================================
+        let currentSelectedPlan = { name: '', price: 0 };
+        const modal = document.getElementById('checkout-modal');
+        const modalBox = document.getElementById('modal-content-box');
+        const stepForm = document.getElementById('modal-step-form');
+        const stepSuccess = document.getElementById('modal-step-success');
+
+        // Expose functions to global window object so HTML onclick attributes can access them
+        window.openModal = function(name, price) {
+            currentSelectedPlan = { name, price };
+            
+            // Set data in UI
+            document.getElementById('modal-plan-name').textContent = name;
+            document.getElementById('modal-plan-price').textContent = `$${price}/mo`;
+            document.getElementById('discord-user').value = '';
+            
+            // Reset views
+            stepForm.style.display = 'block';
+            stepSuccess.style.display = 'none';
+
+            // Show modal
+            modal.classList.remove('hidden');
+            // Slight delay for animation
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modalBox.classList.remove('scale-95');
+                modalBox.classList.add('scale-100');
+            }, 10);
+        };
+
+        window.closeModal = function() {
+            modal.classList.add('opacity-0');
+            modalBox.classList.remove('scale-100');
+            modalBox.classList.add('scale-95');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300); // match transition duration
+        };
+
+        window.handleFormSubmit = async function(event) {
+            event.preventDefault();
+            
+            const btn = document.getElementById('submit-btn');
+            const discordUsername = document.getElementById('discord-user').value.trim();
+            
+            if (!discordUsername) return;
+
+            // UI Loading state
+            const originalBtnText = btn.innerHTML;
+            btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> Processing...`;
+            btn.disabled = true;
+
+            try {
+                let orderId = "TEST-ORDER-" + Math.floor(Math.random() * 1000000);
+
+                // If DB is initialized correctly, save to Firestore
+                if (db) {
+                    const docRef = await addDoc(collection(db, "server_orders"), {
+                        plan: currentSelectedPlan.name,
+                        price: currentSelectedPlan.price,
+                        discordUsername: discordUsername,
+                        status: 'pending_discord_payment',
+                        timestamp: serverTimestamp()
+                    });
+                    orderId = docRef.id;
+                } else {
+                    // Simulate network delay if Firebase isn't configured
+                    await new Promise(resolve => setTimeout(resolve, 1200));
+                }
+
+                // Show Success Step
+                document.getElementById('success-order-id').textContent = orderId;
+                stepForm.style.display = 'none';
+                stepSuccess.style.display = 'flex';
+
+            } catch (error) {
+                console.error("Error saving order: ", error);
+                // Custom Notification instead of alert
+                showTempError("Failed to save order. Check console and Firebase config.");
+            } finally {
+                // Restore button state
+                btn.innerHTML = originalBtnText;
+                btn.disabled = false;
+            }
+        };
+
+        window.copyOrderId = function() {
+            const orderIdText = document.getElementById('success-order-id').textContent;
+            
+            // Create a temporary textarea to copy from (handles iframe restrictions)
+            const el = document.createElement('textarea');
+            el.value = orderIdText;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+
+            // Change icon temporarily to check
+            const btn = event.currentTarget;
+            const icon = btn.querySelector('i');
+            icon.className = 'fa-solid fa-check text-brand-400';
+            setTimeout(() => {
+                icon.className = 'fa-regular fa-copy';
+            }, 2000);
+        };
+
+        function showTempError(msg) {
+            const errDiv = document.createElement('div');
+            errDiv.className = 'absolute top-4 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-4 py-2 rounded shadow-lg text-sm z-[100]';
+            errDiv.textContent = msg;
+            document.body.appendChild(errDiv);
+            setTimeout(() => errDiv.remove(), 4000);
+        }
+    </script>
+</body>
+</html>
