@@ -1,238 +1,1436 @@
 <!DOCTYPE html>
-<html lang="ar" dir="ltr">
+<html lang="en" class="dark scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tian Hosting | Minecraft Servers</title>
-    <!-- استدعاء Tailwind CSS للتصميم -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- استدعاء SweetAlert2 للرسائل المنبثقة الجميلة -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <style>
-        body {
-            background-color: #0f172a; /* لون داكن */
-            color: #f8fafc;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TIAN HOSTING — Enterprise Game Server & Discord Bot Cloud</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            obsidian: {
+              950: '#05060b',
+              900: '#0a0d16',
+              800: '#111625',
+              700: '#1c243b',
+            }
+          }
         }
-        .neon-text {
-            text-shadow: 0 0 10px #10b981, 0 0 20px #10b981;
-        }
-        .plan-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
-            border-color: #10b981;
-        }
-    </style>
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+    body {
+      background-color: #05060b;
+      color: #f8fafc;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+    }
+    /* Subtle Architectural Grid */
+    .bg-mesh {
+      background-size: 56px 56px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.022) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.022) 1px, transparent 1px);
+    }
+    /* Ultra-clean Linear/Vercel Surface */
+    .surface-card {
+      background: linear-gradient(180deg, rgba(17, 22, 37, 0.75) 0%, rgba(10, 13, 22, 0.92) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      backdrop-filter: blur(16px);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .surface-card:hover {
+      border-color: rgba(56, 189, 248, 0.35);
+      transform: translateY(-4px);
+      box-shadow: 0 24px 48px -18px rgba(0, 0, 0, 0.7), 0 0 30px -10px rgba(56, 189, 248, 0.15);
+    }
+    .surface-glass {
+      background: rgba(10, 13, 22, 0.82);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .popular-ring {
+      background: linear-gradient(180deg, rgba(14, 28, 54, 0.85) 0%, rgba(10, 13, 22, 0.95) 100%);
+      border: 1px solid rgba(56, 189, 248, 0.45);
+      box-shadow: 0 0 35px -10px rgba(56, 189, 248, 0.22);
+    }
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 7px; height: 7px; }
+    ::-webkit-scrollbar-track { background: #05060b; }
+    ::-webkit-scrollbar-thumb { background: #1c243b; border-radius: 99px; }
+    ::-webkit-scrollbar-thumb:hover { background: #334155; }
+  </style>
 </head>
-<body class="min-h-screen">
 
-    <!-- شريط التنقل (Navbar) -->
-    <nav class="bg-gray-900 border-b border-gray-800 p-4 sticky top-0 z-50">
-        <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-3xl font-bold text-emerald-400 neon-text">Tian Hosting</h1>
-            
-            <!-- منطقة تسجيل الدخول -->
-            <div id="auth-section">
-                <button id="login-btn" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 px-4 rounded transition">
-                    Login with Google
-                </button>
-                <div id="user-info" class="hidden flex items-center gap-3">
-                    <img id="user-pic" src="" alt="User" class="w-10 h-10 rounded-full border-2 border-emerald-500">
-                    <span id="user-name" class="font-bold"></span>
-                    <button id="logout-btn" class="text-red-400 hover:text-red-300 text-sm underline">Logout</button>
-                </div>
-            </div>
-        </div>
-    </nav>
+<body class="bg-mesh min-h-screen flex flex-col selection:bg-sky-400 selection:text-slate-950">
 
-    <!-- الهيدر -->
-    <header class="text-center py-16 px-4">
-        <h2 class="text-5xl font-extrabold mb-4">Premium Minecraft Hosting</h2>
-        <p class="text-gray-400 text-xl max-w-2xl mx-auto">Get the best performance for your Minecraft server. Order now and pay easily via Discord.</p>
-    </header>
+  <!-- Ambient Top Spotlight -->
+  <div class="fixed inset-x-0 top-0 h-[520px] pointer-events-none z-0 overflow-hidden">
+    <div class="absolute -top-48 left-1/2 -translate-x-1/2 w-[950px] h-[420px] bg-gradient-to-tr from-sky-500/15 via-indigo-500/12 to-emerald-500/10 rounded-full blur-[130px]"></div>
+  </div>
 
-    <!-- خطط الاستضافة -->
-    <div class="container mx-auto px-4 pb-20">
-        <div id="plans-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <!-- سيتم إضافة الخطط هنا بواسطة الجافاسكربت -->
-        </div>
+  <!-- Top Live Status Bar -->
+  <div class="relative z-40 bg-obsidian-900/90 border-b border-white/[0.06] text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-10 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-2.5 truncate">
+        <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-mono font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/25">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> ALL SYSTEMS OPERATIONAL
+        </span>
+        <span id="announcementText" class="text-slate-300 font-medium truncate">
+          AMD Ryzen 9 7950X Nodes • Instant Setup • Enterprise DDoS Protection
+        </span>
+      </div>
+      <div class="hidden md:flex items-center gap-5 font-mono text-[11px] text-slate-400 shrink-0">
+        <span>EU-Central: <strong class="text-emerald-400">12ms</strong></span>
+        <span>US-East: <strong class="text-sky-400">28ms</strong></span>
+        <a id="topDiscordLink" href="https://discord.gg/tianhosting" target="_blank" rel="noopener noreferrer" class="text-sky-400 hover:text-sky-300 font-semibold inline-flex items-center gap-1">
+          <span>Support Discord</span>
+          <i data-lucide="external-link" class="w-3 h-3"></i>
+        </a>
+      </div>
     </div>
+  </div>
 
-    <!-- كود الجافاسكربت و Firebase -->
-    <script type="module">
-        // استدعاء مكتبات فايربيس
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  <!-- Main Sticky Navigation -->
+  <header class="sticky top-0 z-40 surface-glass border-b border-white/[0.07]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+      
+      <!-- Brand Identity -->
+      <a href="#" class="flex items-center gap-3.5 group">
+        <div class="w-11 h-11 rounded-2xl bg-gradient-to-b from-sky-400 to-indigo-600 p-[1px] shadow-lg shadow-sky-500/20">
+          <div class="w-full h-full bg-obsidian-950 rounded-[15px] flex items-center justify-center">
+            <svg class="w-6 h-6 text-sky-400 group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+              <polyline points="2 17 12 22 22 17"/>
+              <polyline points="2 12 12 17 22 12"/>
+            </svg>
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-extrabold text-xl tracking-tight text-white">TIAN<span class="text-sky-400">HOSTING</span></span>
+            <span class="text-[10px] font-mono font-semibold px-1.5 py-0.5 rounded bg-white/[0.06] text-slate-300 border border-white/10">CLOUD v4</span>
+          </div>
+          <p class="text-[11px] text-slate-400 font-mono">High-Performance Infrastructure</p>
+        </div>
+      </a>
 
-        // بيانات الفايربيس الخاصة بك
-        const firebaseConfig = {
-            apiKey: "AIzaSyC0lwVRTBPA3yxnZ3wuqvyfQJbJP-AVNJo",
-            authDomain: "kareem-8ed77.firebaseapp.com",
-            databaseURL: "https://kareem-8ed77-default-rtdb.firebaseio.com",
-            projectId: "kareem-8ed77",
-            storageBucket: "kareem-8ed77.firebasestorage.app",
-            messagingSenderId: "557227389584",
-            appId: "1:557227389584:web:f8ffa9c5913ef54c919e15",
-            measurementId: "G-919VM45PXW"
-        };
+      <!-- Center Navigation Pills -->
+      <nav class="hidden lg:flex items-center gap-1 p-1.5 rounded-2xl bg-obsidian-900/90 border border-white/[0.06] text-xs font-semibold text-slate-300">
+        <a href="#pricing-section" onclick="switchTab('premium')" class="px-4 py-2 rounded-xl hover:text-white hover:bg-white/[0.05] transition">Game Servers</a>
+        <a href="#pricing-section" onclick="switchTab('bot')" class="px-4 py-2 rounded-xl hover:text-white hover:bg-white/[0.05] transition">Discord Bots</a>
+        <a href="#calculator-section" class="px-4 py-2 rounded-xl hover:text-white hover:bg-white/[0.05] transition">Plan Calculator</a>
+        <a href="#panel-section" class="px-4 py-2 rounded-xl hover:text-white hover:bg-white/[0.05] transition">Control Panel</a>
+        <a id="navDiscordLink" href="https://discord.gg/tianhosting" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-xl text-indigo-300 hover:text-white hover:bg-indigo-500/15 transition inline-flex items-center gap-1.5">
+          <i data-lucide="message-Square" class="w-3.5 h-3.5"></i>
+          <span>Discord Support</span>
+        </a>
+      </nav>
 
-        // تهيئة الفايربيس
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        const provider = new GoogleAuthProvider();
+      <!-- Right Controls: Currency + Owner + Google Sign-In -->
+      <div class="flex items-center gap-2.5">
+        <!-- Currency Selector -->
+        <div class="hidden sm:flex items-center bg-obsidian-900 border border-white/[0.08] rounded-xl p-1 text-xs font-mono">
+          <button onclick="setCurrency('USD')" id="curr-USD" class="px-2.5 py-1 rounded-lg bg-sky-400 text-slate-950 font-bold transition">USD</button>
+          <button onclick="setCurrency('EGP')" id="curr-EGP" class="px-2.5 py-1 rounded-lg text-slate-400 hover:text-white transition">EGP</button>
+          <button onclick="setCurrency('SAR')" id="curr-SAR" class="px-2.5 py-1 rounded-lg text-slate-400 hover:text-white transition">SAR</button>
+        </div>
 
-        let currentUser = null;
+        <!-- OWNER BUTTON (Only visible when kareemwael0213@gmail.com logs in) -->
+        <button id="ownerAdminBtn" onclick="openOwnerModal()" class="hidden items-center gap-2 px-3.5 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-slate-950 font-extrabold text-xs shadow-lg shadow-amber-500/25 hover:brightness-110 transition">
+          <i data-lucide="crown" class="w-4 h-4"></i>
+          <span>Owner Command</span>
+        </button>
 
-        // الخطط بالأسعار والدولار
-        const plans = [
-            { name: "Dirt Plan", ram: "2GB RAM", cpu: "50% CPU", storage: "8GB NVMe SSD", price: "$1.00", img: "https://images.unsplash.com/photo-1627409337059-d8916d1d497c?auto=format&fit=crop&w=400&q=80" },
-            { name: "Stone Plan", ram: "4GB RAM", cpu: "80% CPU", storage: "12GB NVMe SSD", price: "$2.00", img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=400&q=80" },
-            { name: "Iron Plan", ram: "6GB RAM", cpu: "100% CPU", storage: "20GB NVMe SSD", price: "$3.50", img: "https://images.unsplash.com/photo-1501166222995-bb049e635817?auto=format&fit=crop&w=400&q=80" },
-            { name: "Diamond Plan", ram: "8GB RAM", cpu: "150% CPU", storage: "25GB NVMe SSD", price: "$5.00", img: "https://images.unsplash.com/photo-1614088661858-a400908867a5?auto=format&fit=crop&w=400&q=80" },
-            { name: "Blaze Plan", ram: "12GB RAM", cpu: "200% CPU", storage: "35GB NVMe SSD", price: "$10.00", img: "https://images.unsplash.com/photo-1542451542907-6cf80ff362d6?auto=format&fit=crop&w=400&q=80" },
-            { name: "Netherite Plan", ram: "16GB RAM", cpu: "280% CPU", storage: "50GB NVMe SSD", price: "$16.00", img: "https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?auto=format&fit=crop&w=400&q=80" },
-            { name: "Titan Plan", ram: "32GB RAM", cpu: "400% CPU", storage: "70GB NVMe SSD", price: "$22.00", img: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=400&q=80" },
-            { name: "Infinity Plan", ram: "64GB RAM", cpu: "600% CPU", storage: "100GB NVMe SSD", price: "$28.00", img: "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=400&q=80" }
-        ];
+        <!-- Google Login Button -->
+        <button id="googleSignInBtn" onclick="loginWithGoogle()" class="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-white hover:bg-slate-100 text-slate-950 font-bold text-xs sm:text-sm shadow-sm transition">
+          <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24">
+            <path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.7l3.1-3.1C17.3 1.8 14.8 1 12 1 7.4 1 3.5 3.6 1.6 7.4l3.7 2.8C6.2 7.2 8.9 5 12 5z"/>
+            <path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.7-.2-2.5H12v4.8h6.5c-.3 1.5-1.1 2.8-2.4 3.6l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"/>
+            <path fill="#FBBC05" d="M5.3 14.2c-.2-.7-.3-1.4-.3-2.2s.1-1.5.3-2.2L1.6 7C.6 9 0 11.2 0 12s.6 3 1.6 4.9l3.7-2.7z"/>
+            <path fill="#34A853" d="M12 23c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3.1 0-5.8-2.1-6.7-5L1.6 16c1.9 3.9 5.8 7 10.4 7z"/>
+          </svg>
+          <span>Sign in with Google</span>
+        </button>
 
-        // عرض الخطط في الموقع
-        const plansContainer = document.getElementById('plans-container');
-        plans.forEach(plan => {
-            const card = document.createElement('div');
-            card.className = "plan-card bg-gray-800 border border-gray-700 rounded-xl overflow-hidden transition duration-300 flex flex-col";
-            card.innerHTML = `
-                <img src="${plan.img}" alt="${plan.name}" class="w-full h-40 object-cover opacity-80 hover:opacity-100 transition">
-                <div class="p-6 flex-grow flex flex-col">
-                    <h3 class="text-2xl font-bold text-emerald-400 mb-2">${plan.name}</h3>
-                    <ul class="text-gray-300 space-y-2 mb-6 flex-grow text-sm">
-                        <li>🚀 ${plan.ram}</li>
-                        <li>⚡ ${plan.cpu}</li>
-                        <li>💾 ${plan.storage}</li>
-                    </ul>
-                    <div class="text-3xl font-bold text-white mb-4">${plan.price}<span class="text-sm text-gray-400 font-normal">/month</span></div>
-                    <button onclick="orderPlan('${plan.name}', '${plan.price}')" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-lg transition shadow-lg shadow-emerald-500/30">
-                        Order Now
-                    </button>
+        <!-- Authenticated User Pill -->
+        <div id="userProfileChip" class="hidden items-center gap-2.5 bg-obsidian-900 border border-white/10 rounded-xl p-1.5 pr-3">
+          <img id="userAvatarImg" src="" alt="Avatar" class="w-8 h-8 rounded-lg object-cover border border-sky-400/40" />
+          <div class="hidden md:block text-left leading-tight">
+            <div class="flex items-center gap-1.5">
+              <span id="userNameTxt" class="text-xs font-bold text-white truncate max-w-[115px]">User</span>
+              <span id="ownerRoleTag" class="hidden text-[9px] font-mono font-extrabold px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40">OWNER</span>
+            </div>
+            <p id="userEmailTxt" class="text-[10px] text-slate-400 font-mono truncate max-w-[140px]"></p>
+          </div>
+          <button onclick="logoutGoogle()" title="Sign Out" class="p-1.5 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-white/[0.05] transition">
+            <i data-lucide="log-out" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <main class="relative z-10 flex-grow">
+
+    <!-- ========================================== -->
+    <!-- HERO SECTION                               -->
+    <!-- ========================================== -->
+    <section class="pt-14 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      <div class="text-center max-w-4xl mx-auto space-y-6">
+        
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-obsidian-900 border border-white/10 text-xs font-mono text-sky-300 shadow-sm">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-sky-400"></i>
+          <span>Next-Gen NVMe Gen4 & DDR5 Game Cloud</span>
+          <span class="text-slate-600">|</span>
+          <span class="text-emerald-400 font-semibold">Plans from $0.50/mo</span>
+        </div>
+
+        <h1 class="font-extrabold text-4xl sm:text-6xl lg:text-7xl tracking-tight text-white leading-[1.07]">
+          Enterprise Server Hosting <br class="hidden sm:inline" />
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-indigo-400 to-emerald-400">Engineered for Zero Lag.</span>
+        </h1>
+
+        <p class="text-slate-400 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed font-normal">
+          Deploy high-TPS <strong class="text-slate-200">Minecraft Servers</strong> or 24/7 <strong class="text-slate-200">Discord Bots</strong> on dedicated Ryzen 9 hardware. Instant setup, full SFTP & Pterodactyl access, and 12 Tbps DDoS protection.
+        </p>
+
+        <div class="flex flex-wrap items-center justify-center gap-3.5 pt-2">
+          <a href="#pricing-section" class="inline-flex items-center gap-2.5 px-7 py-4 rounded-2xl bg-sky-400 hover:bg-sky-300 text-slate-950 font-extrabold text-sm sm:text-base shadow-xl shadow-sky-500/20 transition">
+            <span>View All 12 Plans</span>
+            <i data-lucide="arrow-down-right" class="w-5 h-5"></i>
+          </a>
+          <a id="heroDiscordBtn" href="https://discord.gg/tianhosting" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2.5 px-6 py-4 rounded-2xl bg-obsidian-900 hover:bg-obsidian-800 border border-white/10 text-white font-bold text-sm sm:text-base transition">
+            <i data-lucide="headphones" class="w-5 h-5 text-indigo-400"></i>
+            <span>Open Support Ticket</span>
+          </a>
+        </div>
+
+        <!-- Architectural Hardware Specs Strip -->
+        <div class="pt-10 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 max-w-4xl mx-auto text-left">
+          <div class="surface-card rounded-2xl p-4 flex items-center gap-3.5">
+            <div class="w-10 h-10 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400 shrink-0">
+              <i data-lucide="cpu" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <div class="text-xs font-mono text-slate-400">PROCESSOR</div>
+              <div class="text-sm font-bold text-white">Ryzen 9 7950X</div>
+            </div>
+          </div>
+
+          <div class="surface-card rounded-2xl p-4 flex items-center gap-3.5">
+            <div class="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 shrink-0">
+              <i data-lucide="hard-drive" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <div class="text-xs font-mono text-slate-400">STORAGE</div>
+              <div class="text-sm font-bold text-white">7,400MB/s NVMe</div>
+            </div>
+          </div>
+
+          <div class="surface-card rounded-2xl p-4 flex items-center gap-3.5">
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
+              <i data-lucide="shield-check" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <div class="text-xs font-mono text-slate-400">MITIGATION</div>
+              <div class="text-sm font-bold text-white">12 Tbps CosmicGuard</div>
+            </div>
+          </div>
+
+          <div class="surface-card rounded-2xl p-4 flex items-center gap-3.5">
+            <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 shrink-0">
+              <i data-lucide="zap" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <div class="text-xs font-mono text-slate-400">ACTIVATION</div>
+              <div class="text-sm font-bold text-white">Instant Provision</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- ORGANIZED PRICING ARCHITECTURE             -->
+    <!-- ========================================== -->
+    <section id="pricing-section" class="py-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      
+      <!-- Section Control Header -->
+      <div class="surface-card rounded-3xl p-5 sm:p-7 mb-10 border border-white/[0.08]">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+          
+          <!-- Left: Category Switcher Tabs -->
+          <div class="flex flex-wrap items-center gap-2">
+            <button onclick="switchTab('premium')" id="tabBtn-premium" class="px-5 py-3 rounded-2xl text-xs sm:text-sm font-extrabold bg-sky-400 text-slate-950 shadow-lg shadow-sky-500/20 transition flex items-center gap-2">
+              <i data-lucide="server" class="w-4 h-4"></i>
+              <span>Premium Server Plans (8)</span>
+            </button>
+            <button onclick="switchTab('bot')" id="tabBtn-bot" class="px-5 py-3 rounded-2xl text-xs sm:text-sm font-bold bg-obsidian-950 text-slate-300 hover:text-white border border-white/[0.07] transition flex items-center gap-2">
+              <i data-lucide="bot" class="w-4 h-4 text-indigo-400"></i>
+              <span>Discord Bot Plans (4)</span>
+            </button>
+            <button onclick="switchTab('all')" id="tabBtn-all" class="px-4 py-3 rounded-2xl text-xs sm:text-sm font-bold bg-obsidian-950 text-slate-300 hover:text-white border border-white/[0.07] transition">
+              Show All (12)
+            </button>
+          </div>
+
+          <!-- Right: Billing Cycle & View Mode (Cards vs Matrix Table) -->
+          <div class="flex flex-wrap items-center gap-3">
+            <!-- Billing Cycle -->
+            <div class="inline-flex items-center bg-obsidian-950 border border-white/[0.08] p-1 rounded-xl text-xs font-mono">
+              <button onclick="setBilling(1)" id="bill-1" class="px-3 py-1.5 rounded-lg bg-obsidian-800 text-sky-400 font-bold transition">Monthly</button>
+              <button onclick="setBilling(3)" id="bill-3" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition">Quarterly <span class="text-emerald-400">-5%</span></button>
+              <button onclick="setBilling(12)" id="bill-12" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition">Yearly <span class="text-emerald-400">-15%</span></button>
+            </div>
+
+            <!-- View Mode Toggle -->
+            <div class="inline-flex items-center bg-obsidian-950 border border-white/[0.08] p-1 rounded-xl text-xs">
+              <button onclick="setViewMode('cards')" id="view-cards" class="px-3 py-1.5 rounded-lg bg-obsidian-800 text-white font-semibold flex items-center gap-1.5 transition">
+                <i data-lucide="layout-grid" class="w-3.5 h-3.5 text-sky-400"></i>
+                <span>Cards</span>
+              </button>
+              <button onclick="setViewMode('table')" id="view-table" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white font-semibold flex items-center gap-1.5 transition">
+                <i data-lucide="table-2" class="w-3.5 h-3.5 text-indigo-400"></i>
+                <span>Matrix Table</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- VIEW 1: LUXURY CARDS GRID                  -->
+      <!-- ========================================== -->
+      <div id="cardsViewContainer" class="space-y-14">
+        
+        <!-- Premium Server Plans Block -->
+        <div id="premiumCardsSection" class="space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2 px-1">
+            <div>
+              <div class="text-xs font-mono uppercase tracking-wider text-sky-400 font-semibold">Dedicated Game Cloud</div>
+              <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-0.5">TIAN HOSTING PREMIUM PLANS</h2>
+            </div>
+            <p class="text-xs font-mono text-slate-400">Unmetered Traffic • Full Root SFTP • Automated Daily Backups</p>
+          </div>
+
+          <div id="premiumGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+
+        <!-- Discord Bot Plans Block -->
+        <div id="botCardsSection" class="hidden space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2 px-1">
+            <div>
+              <div class="text-xs font-mono uppercase tracking-wider text-indigo-400 font-semibold">24/7 App & Bot Containers</div>
+              <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-0.5">TIAN HOSTING — DISCORD BOT PLANS</h2>
+            </div>
+            <p class="text-xs font-mono text-slate-400">Supports Node.js, Python, Pycord, JDA & Lavalink Audio</p>
+          </div>
+
+          <div id="botGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ========================================== -->
+      <!-- VIEW 2: CLEAN SPEC MATRIX TABLE            -->
+      <!-- ========================================== -->
+      <div id="tableViewContainer" class="hidden space-y-8">
+        <div class="surface-card rounded-3xl overflow-hidden border border-white/10">
+          <div class="px-6 py-5 bg-obsidian-900/90 border-b border-white/[0.07] flex items-center justify-between">
+            <div>
+              <h3 class="font-extrabold text-lg text-white">Complete Specification Matrix</h3>
+              <p class="text-xs text-slate-400 font-mono">Direct side-by-side hardware comparison across all TIAN HOSTING tiers</p>
+            </div>
+            <span class="text-xs font-mono px-3 py-1 rounded-lg bg-sky-500/10 text-sky-400 border border-sky-500/20">Instant Deploy</span>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="border-b border-white/[0.07] text-[11px] font-mono uppercase text-slate-400 bg-obsidian-950/60">
+                  <th class="py-3.5 px-6">Tier Name</th>
+                  <th class="py-3.5 px-4">Category</th>
+                  <th class="py-3.5 px-4">DDR5 RAM</th>
+                  <th class="py-3.5 px-4">Ryzen 9 CPU</th>
+                  <th class="py-3.5 px-4">NVMe Gen4 SSD</th>
+                  <th class="py-3.5 px-4">Price</th>
+                  <th class="py-3.5 px-6 text-right">Action</th>
+                </tr>
+              </thead>
+              <tbody id="matrixTableBody" class="divide-y divide-white/[0.05] text-sm font-mono">
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========================================== -->
+    <!-- INTERACTIVE PLAN FINDER / CALCULATOR       -->
+    <!-- ========================================== -->
+    <section id="calculator-section" class="py-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      <div class="surface-card rounded-3xl p-6 sm:p-10 border border-white/10">
+        <div class="grid lg:grid-cols-12 gap-10 items-center">
+          
+          <!-- Controls -->
+          <div class="lg:col-span-7 space-y-6">
+            <div>
+              <span class="text-xs font-mono uppercase tracking-wider text-sky-400 font-semibold">Interactive Resource Matcher</span>
+              <h3 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">Find Your Exact Hardware Tier in 5 Seconds</h3>
+              <p class="text-slate-400 text-sm mt-1">Tell us about your community size and workload—we’ll calculate the exact RAM & CPU required.</p>
+            </div>
+
+            <div class="space-y-5">
+              <!-- Workload Switch -->
+              <div class="grid grid-cols-2 gap-3">
+                <button onclick="setCalcType('premium')" id="calcType-premium" class="p-4 rounded-2xl border border-sky-400 bg-sky-400/10 text-white font-bold text-sm flex items-center gap-3 transition">
+                  <div class="w-9 h-9 rounded-xl bg-sky-400/20 flex items-center justify-center text-sky-300">
+                    <i data-lucide="pickaxe" class="w-5 h-5"></i>
+                  </div>
+                  <div class="text-left">
+                    <div>Minecraft / Game</div>
+                    <div class="text-[11px] font-mono text-slate-400 font-normal">2GB to 64GB RAM</div>
+                  </div>
+                </button>
+
+                <button onclick="setCalcType('bot')" id="calcType-bot" class="p-4 rounded-2xl border border-white/10 bg-obsidian-950 text-slate-300 hover:text-white font-bold text-sm flex items-center gap-3 transition">
+                  <div class="w-9 h-9 rounded-xl bg-indigo-500/20 flex items-center justify-center text-indigo-300">
+                    <i data-lucide="bot" class="w-5 h-5"></i>
+                  </div>
+                  <div class="text-left">
+                    <div>Discord Bot</div>
+                    <div class="text-[11px] font-mono text-slate-400 font-normal">512MB to 4GB RAM</div>
+                  </div>
+                </button>
+              </div>
+
+              <!-- Slider -->
+              <div class="p-4 rounded-2xl bg-obsidian-950 border border-white/[0.06] space-y-3">
+                <div class="flex justify-between items-center text-xs font-mono">
+                  <span id="calcSliderTitle" class="text-slate-300 uppercase">Estimated Concurrent Players</span>
+                  <span id="calcSliderBadge" class="px-2.5 py-1 rounded-lg bg-sky-400/15 text-sky-300 font-bold border border-sky-400/30">30 Players</span>
                 </div>
-            `;
-            plansContainer.appendChild(card);
+                <input id="calcRange" type="range" min="5" max="200" value="30" oninput="runCalculator()" class="w-full accent-sky-400 cursor-pointer h-2 bg-obsidian-800 rounded-lg" />
+                <div class="flex justify-between text-[10px] font-mono text-slate-500">
+                  <span>Small Group</span>
+                  <span>Medium Community</span>
+                  <span>Large Network</span>
+                </div>
+              </div>
+
+              <!-- Mod / Workload Intensity -->
+              <div class="grid grid-cols-3 gap-3 text-xs">
+                <button onclick="setCalcLoad(1)" id="calcLoad-1" class="p-3 rounded-xl border border-white/10 bg-obsidian-950 text-slate-300 font-semibold transition">
+                  Vanilla / Light
+                </button>
+                <button onclick="setCalcLoad(2)" id="calcLoad-2" class="p-3 rounded-xl border border-sky-400 bg-sky-400/10 text-white font-bold transition">
+                  Standard Plugins
+                </button>
+                <button onclick="setCalcLoad(3)" id="calcLoad-3" class="p-3 rounded-xl border border-white/10 bg-obsidian-950 text-slate-300 font-semibold transition">
+                  Heavy Modpacks
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recommended Plan Spotlight Card -->
+          <div class="lg:col-span-5">
+            <div class="p-6 sm:p-7 rounded-3xl bg-obsidian-950 border border-sky-400/40 shadow-2xl space-y-6 relative overflow-hidden">
+              <div class="flex items-center justify-between">
+                <span class="text-[11px] font-mono uppercase px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-semibold">
+                  99.8% Optimal Match
+                </span>
+                <span id="calcOutCat" class="text-xs font-mono text-slate-400">PREMIUM SERVER</span>
+              </div>
+
+              <div class="flex items-center gap-4">
+                <div id="calcOutIcon" class="w-14 h-14 rounded-2xl bg-sky-500/10 border border-sky-500/30 flex items-center justify-center shrink-0"></div>
+                <div class="flex-1">
+                  <h4 id="calcOutName" class="text-2xl font-extrabold text-white">Diamond Plan</h4>
+                  <p id="calcOutTagline" class="text-xs text-slate-400">Best seller for active SMP communities</p>
+                </div>
+                <div class="text-right">
+                  <div id="calcOutPrice" class="text-3xl font-mono font-extrabold text-sky-400">$2.70</div>
+                  <div class="text-[11px] font-mono text-slate-500">per month</div>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-3 gap-2.5 text-center font-mono text-xs">
+                <div class="p-3 rounded-2xl bg-obsidian-900 border border-white/[0.06]">
+                  <div class="text-[10px] text-slate-400">MEMORY</div>
+                  <div id="calcOutRam" class="font-bold text-white text-sm mt-0.5">8GB RAM</div>
+                </div>
+                <div class="p-3 rounded-2xl bg-obsidian-900 border border-white/[0.06]">
+                  <div class="text-[10px] text-slate-400">CPU POWER</div>
+                  <div id="calcOutCpu" class="font-bold text-sky-400 text-sm mt-0.5">150% CPU</div>
+                </div>
+                <div class="p-3 rounded-2xl bg-obsidian-900 border border-white/[0.06]">
+                  <div class="text-[10px] text-slate-400">NVMe SSD</div>
+                  <div id="calcOutDisk" class="font-bold text-emerald-400 text-sm mt-0.5">25GB NVMe</div>
+                </div>
+              </div>
+
+              <button id="calcDeployBtn" onclick="openOrderDrawer('diamond')" class="w-full py-4 rounded-2xl bg-sky-400 hover:bg-sky-300 text-slate-950 font-extrabold text-sm transition flex items-center justify-center gap-2 shadow-lg shadow-sky-500/20">
+                <span>Configure & Order This Tier</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- INTERACTIVE CONTROL PANEL SHOWCASE         -->
+    <!-- ========================================== -->
+    <section id="panel-section" class="py-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+        <div>
+          <span class="text-xs font-mono uppercase tracking-wider text-indigo-400 font-semibold">Custom Cloud Panel</span>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-white mt-1">Manage Your Server Like a Pro</h2>
+        </div>
+        <p class="text-sm text-slate-400 max-w-md">Real-time console logs, 1-click version changer, automated backups, and sub-user permissions built in.</p>
+      </div>
+
+      <div class="surface-card rounded-3xl border border-white/10 overflow-hidden shadow-2xl">
+        <!-- Window Header -->
+        <div class="bg-obsidian-950 px-6 py-4 border-b border-white/[0.07] flex flex-wrap items-center justify-between gap-4">
+          <div class="flex items-center gap-3">
+            <div class="flex gap-1.5">
+              <span class="w-3 h-3 rounded-full bg-rose-500/80"></span>
+              <span class="w-3 h-3 rounded-full bg-amber-500/80"></span>
+              <span class="w-3 h-3 rounded-full bg-emerald-500/80"></span>
+            </div>
+            <span class="text-xs font-mono text-slate-300 font-semibold ml-2">panel.tianhosting.cloud — Node: DE-Ryzen7950X-01</span>
+            <span id="termBadge" class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">ONLINE • 20.0 TPS</span>
+          </div>
+
+          <div class="flex items-center gap-2 font-mono text-xs">
+            <button onclick="simConsole('start')" class="px-3 py-1.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/30 font-semibold transition">Start</button>
+            <button onclick="simConsole('restart')" class="px-3 py-1.5 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/30 font-semibold transition">Restart</button>
+            <button onclick="simConsole('stop')" class="px-3 py-1.5 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 border border-rose-500/30 font-semibold transition">Stop</button>
+          </div>
+        </div>
+
+        <!-- Console & Live Telemetry Grid -->
+        <div class="grid lg:grid-cols-12">
+          <!-- Terminal Output -->
+          <div class="lg:col-span-8 p-6 bg-obsidian-950/90 font-mono text-xs flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-white/[0.07]">
+            <div id="termLogs" class="h-60 overflow-y-auto space-y-2 text-slate-300 pr-2">
+              <div class="text-slate-500">[12:00:01 INFO]: Initializing TIAN Container Engine v4.2...</div>
+              <div class="text-sky-400">[12:00:01 INFO]: Mounted 25GB NVMe Gen4 volume (Read: 7,420 MB/s)</div>
+              <div class="text-slate-300">[12:00:02 INFO]: Starting Minecraft server on *:25565 (Paper 1.21.1)</div>
+              <div class="text-emerald-400">[12:00:04 INFO]: Done (1.892s)! Type "tps", "list", or "version" below.</div>
+            </div>
+
+            <form onsubmit="handleTermInput(event)" class="mt-4 pt-3 border-t border-white/[0.08] flex items-center gap-2">
+              <span class="text-sky-400 font-bold">container@tian~$</span>
+              <input id="termCmdInput" type="text" placeholder="Type command (tps, list, version, backup)..." class="flex-1 bg-transparent text-white focus:outline-none text-xs font-mono" />
+              <button type="submit" class="px-4 py-1.5 rounded-xl bg-sky-400 text-slate-950 font-bold text-xs hover:bg-sky-300 transition">Execute</button>
+            </form>
+          </div>
+
+          <!-- Live Hardware Telemetry -->
+          <div class="lg:col-span-4 p-6 bg-obsidian-900/60 space-y-5 font-mono text-xs">
+            <div class="text-slate-400 uppercase text-[11px] font-semibold">Real-Time Container Metrics</div>
+
+            <div class="p-4 rounded-2xl bg-obsidian-950 border border-white/[0.06] space-y-2">
+              <div class="flex justify-between">
+                <span class="text-slate-400">CPU LOAD</span>
+                <span id="liveCpuTxt" class="text-sky-400 font-bold">18.4% / 150%</span>
+              </div>
+              <div class="w-full h-2 rounded-full bg-obsidian-800 overflow-hidden">
+                <div id="liveCpuBar" class="h-full bg-sky-400 transition-all duration-700" style="width: 24%"></div>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-obsidian-950 border border-white/[0.06] space-y-2">
+              <div class="flex justify-between">
+                <span class="text-slate-400">DDR5 MEMORY</span>
+                <span class="text-indigo-400 font-bold">3.2 GB / 8.0 GB</span>
+              </div>
+              <div class="w-full h-2 rounded-full bg-obsidian-800 overflow-hidden">
+                <div class="h-full bg-indigo-400" style="width: 40%"></div>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-obsidian-950 border border-white/[0.06] space-y-2">
+              <div class="flex justify-between">
+                <span class="text-slate-400">NETWORK INBOUND</span>
+                <span class="text-emerald-400 font-bold">1.4 Gbps Clean</span>
+              </div>
+              <div class="text-[11px] text-slate-500">DDoS Mitigation Filter: Active (0 drops)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================== -->
+  <!-- FOOTER                                     -->
+  <!-- ========================================== -->
+  <footer class="relative z-10 border-t border-white/[0.07] bg-obsidian-950 py-12 px-4 sm:px-6 lg:px-8 mt-12">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-sky-400/15 border border-sky-400/30 flex items-center justify-center text-sky-400">
+          <i data-lucide="layers" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <span class="font-extrabold text-white tracking-tight">TIAN HOSTING</span>
+          <p class="text-xs text-slate-500">© 2026 TIAN HOSTING Cloud Infrastructure. All rights reserved.</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a id="footerDiscordBtn" href="https://discord.gg/tianhosting" target="_blank" rel="noopener noreferrer" class="px-4 py-2.5 rounded-xl bg-indigo-500/15 hover:bg-indigo-500/25 text-indigo-300 border border-indigo-500/30 text-xs font-mono font-semibold transition inline-flex items-center gap-2">
+          <i data-lucide="message-circle" class="w-4 h-4"></i>
+          <span>Join Official Support Discord</span>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================= -->
+  <!-- MODAL 1: DEPLOYMENT STUDIO (ORDER & INVOICE CONFIGURATOR) -->
+  <!-- ========================================================= -->
+  <div id="orderModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-md p-4 overflow-y-auto">
+    <div class="surface-card rounded-3xl max-w-xl w-full p-6 sm:p-8 border border-sky-400/30 shadow-2xl space-y-6 my-8">
+      
+      <div class="flex items-start justify-between gap-4 border-b border-white/[0.08] pb-4">
+        <div class="flex items-center gap-3.5">
+          <div id="modalPlanIcon" class="w-12 h-12 rounded-2xl bg-sky-400/10 border border-sky-400/30 flex items-center justify-center shrink-0"></div>
+          <div>
+            <span id="modalPlanCat" class="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-sky-400/15 text-sky-300 border border-sky-400/30 font-bold">PREMIUM SERVER</span>
+            <h3 id="modalPlanName" class="text-2xl font-extrabold text-white mt-0.5">Diamond Plan</h3>
+            <p id="modalPlanSpecs" class="text-xs font-mono text-slate-400">8GB RAM • 150% CPU • 25GB NVMe</p>
+          </div>
+        </div>
+        <button onclick="closeOrderDrawer()" class="p-2 rounded-xl bg-obsidian-900 text-slate-400 hover:text-white border border-white/10">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Step-by-Step Configurator -->
+      <div class="space-y-4 text-left">
+        <div>
+          <label class="block text-xs font-mono uppercase text-slate-300 mb-1.5">1. Server / Bot Identifier</label>
+          <input id="confServerName" type="text" placeholder="e.g. TianSMP Network or PrimeBot" class="w-full px-4 py-3 rounded-xl bg-obsidian-950 border border-white/10 text-white text-sm focus:border-sky-400 focus:outline-none" />
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-mono uppercase text-slate-300 mb-1.5">2. Datacenter Region</label>
+            <select id="confRegion" class="w-full px-3.5 py-3 rounded-xl bg-obsidian-950 border border-white/10 text-white text-sm focus:border-sky-400 focus:outline-none">
+              <option value="Frankfurt, Germany (EU - 12ms)">🇩🇪 Frankfurt, EU (12ms)</option>
+              <option value="Helsinki, Finland (EU - 18ms)">🇫🇮 Helsinki, EU (18ms)</option>
+              <option value="New York, USA (NA - 28ms)">🇺🇸 New York, USA (28ms)</option>
+              <option value="Singapore (ASIA - 42ms)">🇸🇬 Singapore (42ms)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-mono uppercase text-slate-300 mb-1.5">3. Pre-Installed Engine</label>
+            <select id="confEngine" class="w-full px-3.5 py-3 rounded-xl bg-obsidian-950 border border-white/10 text-white text-sm focus:border-sky-400 focus:outline-none">
+              <option value="PaperMC / Purpur (Optimized)">PaperMC / Purpur (Minecraft)</option>
+              <option value="Forge / Fabric (Modpacks)">Forge / Fabric (Modded)</option>
+              <option value="Velocity / BungeeCord Proxy">Velocity / BungeeCord</option>
+              <option value="Node.js v20 (Discord.js)">Node.js v20 (Discord.js)</option>
+              <option value="Python 3.12 (Discord.py)">Python 3.12 (Discord.py)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Ready Ticket Box -->
+        <div>
+          <div class="flex items-center justify-between mb-1.5">
+            <span class="text-xs font-mono uppercase text-sky-400 font-semibold">4. Instant Ticket Order Summary</span>
+            <span id="modalTotalTag" class="text-sm font-mono font-extrabold text-emerald-400">$2.70 / month</span>
+          </div>
+          <textarea id="confInvoiceBox" readonly rows="6" class="w-full p-3.5 rounded-xl bg-obsidian-950 border border-white/10 font-mono text-xs text-slate-300 focus:outline-none"></textarea>
+        </div>
+      </div>
+
+      <!-- Checkout Actions -->
+      <div class="flex flex-col sm:flex-row gap-3 pt-1">
+        <button onclick="submitOrderAndOpenDiscord()" class="flex-1 py-4 px-5 rounded-2xl bg-sky-400 hover:bg-sky-300 text-slate-950 font-extrabold text-sm transition flex items-center justify-center gap-2 shadow-lg shadow-sky-500/20">
+          <i data-lucide="check-check" class="w-4 h-4"></i>
+          <span>Copy Order & Open Support Discord</span>
+        </button>
+        <button onclick="copyOrderOnly()" class="py-4 px-4 rounded-2xl bg-obsidian-900 hover:bg-obsidian-800 border border-white/10 text-slate-200 font-mono text-xs font-semibold transition">
+          Copy Only
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- MODAL 2: OWNER COMMAND CENTER (kareemwael0213@gmail.com)  -->
+  <!-- ========================================================= -->
+  <div id="ownerModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/85 backdrop-blur-md p-4 overflow-y-auto">
+    <div class="surface-card rounded-3xl max-w-2xl w-full p-6 sm:p-8 border border-amber-400/40 shadow-2xl space-y-6 my-8">
+      
+      <div class="flex items-start justify-between gap-4 border-b border-white/[0.08] pb-4">
+        <div class="flex items-center gap-3.5">
+          <div class="w-12 h-12 rounded-2xl bg-amber-400/15 border border-amber-400/40 flex items-center justify-center text-amber-400">
+            <i data-lucide="crown" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h3 class="text-2xl font-extrabold text-white">OWNER COMMAND CENTER</h3>
+              <span class="text-[10px] font-mono font-extrabold px-2 py-0.5 rounded bg-amber-400 text-slate-950">ROOT ACCESS</span>
+            </div>
+            <p class="text-xs font-mono text-slate-400">Verified Owner: <span class="text-amber-300">kareemwael0213@gmail.com</span></p>
+          </div>
+        </div>
+        <button onclick="closeOwnerModal()" class="p-2 rounded-xl bg-obsidian-900 text-slate-400 hover:text-white border border-white/10">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4 text-left">
+        <div class="p-5 rounded-2xl bg-obsidian-950 border border-white/10 space-y-4">
+          <div>
+            <label class="block text-xs font-mono uppercase text-amber-400 font-semibold mb-1.5">
+              Official Support Discord Invite URL (Synced Live via Firebase)
+            </label>
+            <input id="ownerDiscordUrlInput" type="url" placeholder="https://discord.gg/your-server" class="w-full px-4 py-3 rounded-xl bg-obsidian-900 border border-white/15 text-white text-sm font-mono focus:border-amber-400 focus:outline-none" />
+            <p class="text-[11px] text-slate-400 mt-1.5">
+              Updating this link immediately updates all "Support Discord" and "Order Checkout" buttons for every visitor.
+            </p>
+          </div>
+
+          <div>
+            <label class="block text-xs font-mono uppercase text-sky-400 font-semibold mb-1.5">
+              Top Status Bar Announcement
+            </label>
+            <input id="ownerBannerInput" type="text" placeholder="AMD Ryzen 9 7950X Nodes • Instant Setup..." class="w-full px-4 py-3 rounded-xl bg-obsidian-900 border border-white/15 text-white text-sm focus:border-sky-400 focus:outline-none" />
+          </div>
+
+          <button onclick="saveOwnerConfig()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-slate-950 font-extrabold text-sm hover:brightness-110 transition flex items-center justify-center gap-2">
+            <i data-lucide="save" class="w-4 h-4"></i>
+            <span>Publish Changes Live</span>
+          </button>
+        </div>
+
+        <!-- Live Incoming Orders Stream -->
+        <div class="p-5 rounded-2xl bg-obsidian-950 border border-white/10 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-mono uppercase text-slate-300 font-bold">Recent Customer Orders (Realtime DB)</span>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">LIVE FEED</span>
+          </div>
+          <div id="ownerOrdersFeed" class="max-h-48 overflow-y-auto space-y-2 text-xs font-mono">
+            <div class="text-slate-500 py-2">No customer orders logged yet.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toastBanner" class="fixed bottom-5 right-5 z-50 hidden items-center gap-3 px-4 py-3.5 rounded-2xl surface-glass border border-sky-400/40 text-white text-xs sm:text-sm font-semibold shadow-2xl">
+    <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-400 shrink-0"></i>
+    <span id="toastText">Done!</span>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- FIREBASE & APPLICATION SCRIPT                             -->
+  <!-- ========================================================= -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAnalytics, isSupported } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
+    import { 
+      getAuth, 
+      GoogleAuthProvider, 
+      signInWithPopup, 
+      signOut, 
+      onAuthStateChanged 
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import { 
+      getDatabase, 
+      ref, 
+      set, 
+      push, 
+      onValue 
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+    // Your exact Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyC0lwVRTBPA3yxnZ3wuqvyfQJbJP-AVNJo",
+      authDomain: "kareem-8ed77.firebaseapp.com",
+      databaseURL: "https://kareem-8ed77-default-rtdb.firebaseio.com",
+      projectId: "kareem-8ed77",
+      storageBucket: "kareem-8ed77.firebasestorage.app",
+      messagingSenderId: "557227389584",
+      appId: "1:557227389584:web:f8ffa9c5913ef54c919e15",
+      measurementId: "G-919VM45PXW"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    isSupported().then(yes => { if (yes) getAnalytics(app); }).catch(() => {});
+    const auth = getAuth(app);
+    const db = getDatabase(app);
+    const provider = new GoogleAuthProvider();
+
+    const OWNER_EMAIL = "kareemwael0213@gmail.com";
+
+    // App State
+    let currentUser = null;
+    let isOwner = false;
+    let discordInviteUrl = localStorage.getItem("tian_discord_url") || "https://discord.gg/tianhosting";
+    let statusAnnouncement = localStorage.getItem("tian_status_text") || "AMD Ryzen 9 7950X Nodes • Instant Setup • Enterprise DDoS Protection";
+    let activeCurrency = "USD";
+    let billingCycle = 1;
+    let activeTab = "premium";
+    let activeView = "cards";
+    let activeOrderPlan = null;
+
+    const CURRENCIES = {
+      USD: { sym: "$", rate: 1, prefix: true },
+      EGP: { sym: " EGP", rate: 50, prefix: false },
+      SAR: { sym: " SAR", rate: 3.75, prefix: false }
+    };
+
+    // Custom Isometric / Geometric SVG Art for Each Tier
+    const TIER_ICONS = {
+      dirt: `<svg class="w-7 h-7 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2L3 7v10l9 5 9-5V7l-9-5z"/><path d="M3 7l9 5 9-5"/><path d="M12 12v10"/></svg>`,
+      stone: `<svg class="w-7 h-7 text-slate-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 12 12 17 22 12"/><polyline points="2 17 12 22 22 17"/></svg>`,
+      iron: `<svg class="w-7 h-7 text-zinc-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 4h12l4 6-10 11L2 10l4-6z"/><path d="M2 10h20"/></svg>`,
+      diamond: `<svg class="w-7 h-7 text-sky-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2.7 10.3a2.41 2.41 0 0 0 0 3.41l7.59 7.59a2.41 2.41 0 0 0 3.41 0l7.59-7.59a2.41 2.41 0 0 0 0-3.41l-7.59-7.59a2.41 2.41 0 0 0-3.41 0Z"/><path d="m8 12 4-4 4 4-4 4Z"/></svg>`,
+      blaze: `<svg class="w-7 h-7 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>`,
+      netherite: `<svg class="w-7 h-7 text-rose-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>`,
+      titan: `<svg class="w-7 h-7 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+      infinity: `<svg class="w-7 h-7 text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18.178 8c5.096 0 5.096 8 0 8-5.095 0-7.133-8-12.739-8-4.585 0-4.585 8 0 8 5.606 0 7.644-8 12.74-8z"/></svg>`,
+      bot: `<svg class="w-7 h-7 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect width="18" height="12" x="3" y="8" rx="2"/><path d="M12 2v6"/><circle cx="9" cy="14" r="1.5"/><circle cx="15" cy="14" r="1.5"/></svg>`
+    };
+
+    // Complete Verified Pricing Catalog
+    const PLANS = [
+      // PREMIUM SERVER PLANS (8)
+      { id: "dirt", category: "premium", name: "Dirt Plan", ram: "2GB RAM", ramPct: 12, cpu: "50% CPU", cpuPct: 15, disk: "8GB NVMe", diskPct: 12, price: 0.60, tag: "Starter Tier", desc: "Ideal for cozy vanilla survival with friends", icon: "dirt" },
+      { id: "stone", category: "premium", name: "Stone Plan", ram: "4GB RAM", ramPct: 22, cpu: "80% CPU", cpuPct: 25, disk: "12GB NVMe", diskPct: 20, price: 1.20, tag: "Budget Choice", desc: "Smooth gameplay with basic Paper plugins", icon: "stone" },
+      { id: "iron", category: "premium", name: "Iron Plan", ram: "6GB RAM", ramPct: 32, cpu: "100% CPU", cpuPct: 35, disk: "20GB NVMe", diskPct: 30, price: 2.10, tag: "Balanced", desc: "Great for growing SMPs & light modpacks", icon: "iron" },
+      { id: "diamond", category: "premium", name: "Diamond Plan", ram: "8GB RAM", ramPct: 45, cpu: "150% CPU", cpuPct: 48, disk: "25GB NVMe", diskPct: 40, price: 2.70, tag: "Most Popular", popular: true, desc: "Our #1 best-seller for active communities", icon: "diamond" },
+      { id: "blaze", category: "premium", name: "Blaze Plan", ram: "12GB RAM", ramPct: 60, cpu: "200% CPU", cpuPct: 60, disk: "35GB NVMe", diskPct: 52, price: 6.00, tag: "High Clock", desc: "Engineered for heavy plugins & medium mods", icon: "blaze" },
+      { id: "netherite", category: "premium", name: "Netherite Plan", ram: "16GB RAM", ramPct: 74, cpu: "280% CPU", cpuPct: 74, disk: "50GB NVMe", diskPct: 68, price: 9.60, tag: "Pro Community", desc: "Multi-world networks & large modpacks", icon: "netherite" },
+      { id: "titan", category: "premium", name: "Titan Plan", ram: "32GB RAM", ramPct: 88, cpu: "400% CPU", cpuPct: 88, disk: "70GB NVMe", diskPct: 84, price: 13.25, tag: "Enterprise", desc: "Extreme player counts & zero-compromise TPS", icon: "titan" },
+      { id: "infinity", category: "premium", name: "Infinity Plan", ram: "64GB RAM", ramPct: 100, cpu: "600% CPU", cpuPct: 100, disk: "100GB NVMe", diskPct: 100, price: 16.85, tag: "Flagship Monster", popular: true, desc: "Unrivaled raw dedicated hardware power", icon: "infinity" },
+
+      // DISCORD BOT PLANS (4)
+      { id: "bot-starter", category: "bot", name: "Bot Starter", ram: "512MB RAM", ramPct: 25, cpu: "50% CPU", cpuPct: 25, disk: "2GB NVMe", diskPct: 20, price: 0.50, tag: "Single Guild", desc: "24/7 uptime for moderation & ticket bots", icon: "bot" },
+      { id: "bot-standard", category: "bot", name: "Bot Standard", ram: "1GB RAM", ramPct: 50, cpu: "100% CPU", cpuPct: 50, disk: "5GB NVMe", diskPct: 45, price: 1.00, tag: "Best Value Bot", popular: true, desc: "Perfect for economy, leveling & utility bots", icon: "bot" },
+      { id: "bot-pro", category: "bot", name: "Bot Pro", ram: "2GB RAM", ramPct: 75, cpu: "150% CPU", cpuPct: 75, disk: "10GB NVMe", diskPct: 70, price: 2.00, tag: "AI & Music", desc: "High speed for AI bots & Lavalink audio", icon: "bot" },
+      { id: "bot-ultra", category: "bot", name: "Bot Ultra", ram: "4GB RAM", ramPct: 100, cpu: "200% CPU", cpuPct: 100, disk: "20GB NVMe", diskPct: 100, price: 4.00, tag: "Sharded Scale", desc: "Built for verified bots in 1,000+ servers", icon: "bot" }
+    ];
+
+    function formatPrice(usd) {
+      const mult = billingCycle === 3 ? 0.95 : billingCycle === 12 ? 0.85 : 1;
+      const totalUsd = usd * billingCycle * mult;
+      const c = CURRENCIES[activeCurrency];
+      const val = (totalUsd * c.rate).toFixed(2);
+      return c.prefix ? `${c.sym}${val}` : `${val}${c.sym}`;
+    }
+
+    function getCycleSubtext() {
+      if (billingCycle === 1) return "/ month";
+      if (billingCycle === 3) return "/ quarter (-5%)";
+      return "/ year (-15%)";
+    }
+
+    // Render Both Luxury Cards & Matrix Table
+    function renderAllPricing() {
+      const premGrid = document.getElementById("premiumGrid");
+      const botGrid = document.getElementById("botGrid");
+      const tableBody = document.getElementById("matrixTableBody");
+
+      premGrid.innerHTML = "";
+      botGrid.innerHTML = "";
+      tableBody.innerHTML = "";
+
+      PLANS.forEach(p => {
+        const isBot = p.category === "bot";
+        const cardStyle = p.popular ? "popular-ring" : "surface-card";
+        const accentColor = isBot ? "indigo" : "sky";
+
+        const cardHtml = `
+          <div class="${cardStyle} rounded-3xl p-6 flex flex-col justify-between relative group">
+            ${p.popular ? `
+              <div class="absolute -top-3 right-5 px-3 py-0.5 rounded-full bg-gradient-to-r from-sky-400 to-indigo-500 text-slate-950 font-mono font-extrabold text-[10px] uppercase tracking-wider shadow-md">
+                TOP PICK
+              </div>
+            ` : ""}
+
+            <div>
+              <!-- Card Top Header -->
+              <div class="flex items-center justify-between gap-3 mb-4">
+                <div class="w-12 h-12 rounded-2xl bg-obsidian-950 border border-white/10 flex items-center justify-center group-hover:scale-105 transition-transform">
+                  ${TIER_ICONS[p.icon]}
+                </div>
+                <span class="text-[11px] font-mono font-semibold px-2.5 py-1 rounded-full bg-white/[0.04] text-slate-300 border border-white/[0.08]">
+                  ${p.tag}
+                </span>
+              </div>
+
+              <h3 class="text-xl font-extrabold text-white tracking-tight">${p.name}</h3>
+              <p class="text-xs text-slate-400 mt-1 min-h-[32px] leading-relaxed">${p.desc}</p>
+
+              <!-- Price Display -->
+              <div class="my-5 py-4 px-4 rounded-2xl bg-obsidian-950/80 border border-white/[0.06] flex items-baseline justify-between">
+                <div>
+                  <span class="text-2xl sm:text-3xl font-mono font-extrabold text-white">${formatPrice(p.price)}</span>
+                  <span class="text-[11px] font-mono text-slate-400 block mt-0.5">${getCycleSubtext()}</span>
+                </div>
+                <span class="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Instant</span>
+              </div>
+
+              <!-- Visual Hardware Spec Bars -->
+              <div class="space-y-3 font-mono text-xs mb-6">
+                <div>
+                  <div class="flex justify-between text-[11px] mb-1">
+                    <span class="text-slate-400">DDR5 RAM</span>
+                    <span class="text-white font-bold">${p.ram}</span>
+                  </div>
+                  <div class="w-full h-1.5 bg-obsidian-950 rounded-full overflow-hidden">
+                    <div class="h-full bg-sky-400 rounded-full" style="width: ${p.ramPct}%"></div>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="flex justify-between text-[11px] mb-1">
+                    <span class="text-slate-400">vCPU ALLOCATION</span>
+                    <span class="text-sky-300 font-bold">${p.cpu}</span>
+                  </div>
+                  <div class="w-full h-1.5 bg-obsidian-950 rounded-full overflow-hidden">
+                    <div class="h-full bg-indigo-400 rounded-full" style="width: ${p.cpuPct}%"></div>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="flex justify-between text-[11px] mb-1">
+                    <span class="text-slate-400">NVMe STORAGE</span>
+                    <span class="text-emerald-300 font-bold">${p.disk}</span>
+                  </div>
+                  <div class="w-full h-1.5 bg-obsidian-950 rounded-full overflow-hidden">
+                    <div class="h-full bg-emerald-400 rounded-full" style="width: ${p.diskPct}%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button onclick="openOrderDrawer('${p.id}')" class="w-full py-3.5 rounded-2xl font-bold text-xs sm:text-sm transition flex items-center justify-center gap-2 ${
+              p.popular 
+                ? 'bg-sky-400 hover:bg-sky-300 text-slate-950 shadow-lg shadow-sky-500/15' 
+                : 'bg-white/[0.06] hover:bg-sky-400 hover:text-slate-950 text-white border border-white/10'
+            }">
+              <span>Deploy ${p.name}</span>
+              <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+        `;
+
+        if (isBot) {
+          botGrid.insertAdjacentHTML("beforeend", cardHtml);
+        } else {
+          premGrid.insertAdjacentHTML("beforeend", cardHtml);
+        }
+
+        // Populate Matrix Row
+        const rowHtml = `
+          <tr class="hover:bg-white/[0.03] transition">
+            <td class="py-3.5 px-6 font-sans font-bold text-white flex items-center gap-3">
+              <span class="w-7 h-7 rounded-lg bg-obsidian-900 border border-white/10 flex items-center justify-center scale-75">${TIER_ICONS[p.icon]}</span>
+              <span>${p.name}</span>
+              ${p.popular ? `<span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-sky-400/20 text-sky-300">HOT</span>` : ""}
+            </td>
+            <td class="py-3.5 px-4 text-xs text-slate-400">${isBot ? 'Discord Bot' : 'Premium Server'}</td>
+            <td class="py-3.5 px-4 text-white font-semibold">${p.ram}</td>
+            <td class="py-3.5 px-4 text-sky-400 font-semibold">${p.cpu}</td>
+            <td class="py-3.5 px-4 text-emerald-400 font-semibold">${p.disk}</td>
+            <td class="py-3.5 px-4 text-white font-extrabold">${formatPrice(p.price)} <span class="text-[10px] text-slate-500 font-normal">${getCycleSubtext()}</span></td>
+            <td class="py-3.5 px-6 text-right">
+              <button onclick="openOrderDrawer('${p.id}')" class="px-3.5 py-1.5 rounded-xl bg-sky-400 hover:bg-sky-300 text-slate-950 font-sans font-bold text-xs transition">
+                Order
+              </button>
+            </td>
+          </tr>
+        `;
+        tableBody.insertAdjacentHTML("beforeend", rowHtml);
+      });
+
+      lucide.createIcons();
+    }
+
+    // Tab & View Mode Controls
+    window.switchTab = function (tab) {
+      activeTab = tab;
+      ["premium", "bot", "all"].forEach(t => {
+        const btn = document.getElementById(`tabBtn-${t}`);
+        if (t === tab) {
+          btn.className = "px-5 py-3 rounded-2xl text-xs sm:text-sm font-extrabold bg-sky-400 text-slate-950 shadow-lg shadow-sky-500/20 transition flex items-center gap-2";
+        } else {
+          btn.className = "px-5 py-3 rounded-2xl text-xs sm:text-sm font-bold bg-obsidian-950 text-slate-300 hover:text-white border border-white/[0.07] transition flex items-center gap-2";
+        }
+      });
+
+      const premSec = document.getElementById("premiumCardsSection");
+      const botSec = document.getElementById("botCardsSection");
+
+      if (tab === "premium") {
+        premSec.classList.remove("hidden");
+        botSec.classList.add("hidden");
+      } else if (tab === "bot") {
+        premSec.classList.add("hidden");
+        botSec.classList.remove("hidden");
+      } else {
+        premSec.classList.remove("hidden");
+        botSec.classList.remove("hidden");
+      }
+    };
+
+    window.setViewMode = function (mode) {
+      activeView = mode;
+      const cardsContainer = document.getElementById("cardsViewContainer");
+      const tableContainer = document.getElementById("tableViewContainer");
+      const btnCards = document.getElementById("view-cards");
+      const btnTable = document.getElementById("view-table");
+
+      if (mode === "cards") {
+        cardsContainer.classList.remove("hidden");
+        tableContainer.classList.add("hidden");
+        btnCards.className = "px-3 py-1.5 rounded-lg bg-obsidian-800 text-white font-semibold flex items-center gap-1.5 transition";
+        btnTable.className = "px-3 py-1.5 rounded-lg text-slate-400 hover:text-white font-semibold flex items-center gap-1.5 transition";
+      } else {
+        cardsContainer.classList.add("hidden");
+        tableContainer.classList.remove("hidden");
+        btnTable.className = "px-3 py-1.5 rounded-lg bg-obsidian-800 text-white font-semibold flex items-center gap-1.5 transition";
+        btnCards.className = "px-3 py-1.5 rounded-lg text-slate-400 hover:text-white font-semibold flex items-center gap-1.5 transition";
+      }
+    };
+
+    window.setCurrency = function (curr) {
+      activeCurrency = curr;
+      ["USD", "EGP", "SAR"].forEach(c => {
+        const b = document.getElementById(`curr-${c}`);
+        b.className = c === curr
+          ? "px-2.5 py-1 rounded-lg bg-sky-400 text-slate-950 font-bold transition"
+          : "px-2.5 py-1 rounded-lg text-slate-400 hover:text-white transition";
+      });
+      renderAllPricing();
+      runCalculator();
+    };
+
+    window.setBilling = function (months) {
+      billingCycle = months;
+      [1, 3, 12].forEach(m => {
+        const b = document.getElementById(`bill-${m}`);
+        b.className = m === months
+          ? "px-3 py-1.5 rounded-lg bg-obsidian-800 text-sky-400 font-bold transition"
+          : "px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition";
+      });
+      renderAllPricing();
+      runCalculator();
+    };
+
+    // Interactive Calculator
+    let calcCategory = "premium";
+    let calcLoad = 2;
+
+    window.setCalcType = function (type) {
+      calcCategory = type;
+      const pBtn = document.getElementById("calcType-premium");
+      const bBtn = document.getElementById("calcType-bot");
+      const title = document.getElementById("calcSliderTitle");
+
+      if (type === "premium") {
+        pBtn.className = "p-4 rounded-2xl border border-sky-400 bg-sky-400/10 text-white font-bold text-sm flex items-center gap-3 transition";
+        bBtn.className = "p-4 rounded-2xl border border-white/10 bg-obsidian-950 text-slate-300 hover:text-white font-bold text-sm flex items-center gap-3 transition";
+        title.textContent = "Estimated Concurrent Players";
+      } else {
+        bBtn.className = "p-4 rounded-2xl border border-indigo-400 bg-indigo-500/10 text-white font-bold text-sm flex items-center gap-3 transition";
+        pBtn.className = "p-4 rounded-2xl border border-white/10 bg-obsidian-950 text-slate-300 hover:text-white font-bold text-sm flex items-center gap-3 transition";
+        title.textContent = "Estimated Discord Servers (Guilds)";
+      }
+      runCalculator();
+    };
+
+    window.setCalcLoad = function (lvl) {
+      calcLoad = lvl;
+      [1, 2, 3].forEach(i => {
+        const btn = document.getElementById(`calcLoad-${i}`);
+        btn.className = i === lvl
+          ? "p-3 rounded-xl border border-sky-400 bg-sky-400/10 text-white font-bold transition"
+          : "p-3 rounded-xl border border-white/10 bg-obsidian-950 text-slate-300 font-semibold transition";
+      });
+      runCalculator();
+    };
+
+    window.runCalculator = function () {
+      const val = parseInt(document.getElementById("calcRange").value, 10);
+      const badge = document.getElementById("calcSliderBadge");
+      let match;
+
+      if (calcCategory === "premium") {
+        badge.textContent = `${val} Players`;
+        const score = val * calcLoad;
+        if (score <= 20) match = PLANS[0];
+        else if (score <= 45) match = PLANS[1];
+        else if (score <= 75) match = PLANS[2];
+        else if (score <= 130) match = PLANS[3];
+        else if (score <= 210) match = PLANS[4];
+        else if (score <= 320) match = PLANS[5];
+        else if (score <= 460) match = PLANS[6];
+        else match = PLANS[7];
+      } else {
+        badge.textContent = `${val * 5} Servers`;
+        const score = val * calcLoad;
+        if (score <= 45) match = PLANS[8];
+        else if (score <= 120) match = PLANS[9];
+        else if (score <= 260) match = PLANS[10];
+        else match = PLANS[11];
+      }
+
+      document.getElementById("calcOutCat").textContent = match.category === "bot" ? "DISCORD BOT TIER" : "PREMIUM SERVER TIER";
+      document.getElementById("calcOutIcon").innerHTML = TIER_ICONS[match.icon];
+      document.getElementById("calcOutName").textContent = match.name;
+      document.getElementById("calcOutTagline").textContent = match.desc;
+      document.getElementById("calcOutPrice").textContent = formatPrice(match.price);
+      document.getElementById("calcOutRam").textContent = match.ram;
+      document.getElementById("calcOutCpu").textContent = match.cpu;
+      document.getElementById("calcOutDisk").textContent = match.disk;
+      document.getElementById("calcDeployBtn").setAttribute("onclick", `openOrderDrawer('${match.id}')`);
+    };
+
+    // Order Configurator Drawer
+    window.openOrderDrawer = function (planId) {
+      activeOrderPlan = PLANS.find(p => p.id === planId) || PLANS[3];
+      document.getElementById("modalPlanIcon").innerHTML = TIER_ICONS[activeOrderPlan.icon];
+      document.getElementById("modalPlanCat").textContent = activeOrderPlan.category === "bot" ? "DISCORD BOT CONTAINER" : "PREMIUM GAME SERVER";
+      document.getElementById("modalPlanName").textContent = activeOrderPlan.name;
+      document.getElementById("modalPlanSpecs").textContent = `${activeOrderPlan.ram} • ${activeOrderPlan.cpu} • ${activeOrderPlan.disk}`;
+      document.getElementById("modalTotalTag").textContent = `${formatPrice(activeOrderPlan.price)} ${getCycleSubtext()}`;
+
+      const eng = document.getElementById("confEngine");
+      eng.value = activeOrderPlan.category === "bot" ? "Node.js v20 (Discord.js)" : "PaperMC / Purpur (Optimized)";
+
+      buildInvoiceSummary();
+      const modal = document.getElementById("orderModal");
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+    };
+
+    window.closeOrderDrawer = function () {
+      const modal = document.getElementById("orderModal");
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+    };
+
+    function buildInvoiceSummary() {
+      if (!activeOrderPlan) return;
+      const name = document.getElementById("confServerName").value.trim() || "MyTianServer";
+      const region = document.getElementById("confRegion").value;
+      const engine = document.getElementById("confEngine").value;
+      const userStr = currentUser ? currentUser.email : "Guest Client";
+      const total = `${formatPrice(activeOrderPlan.price)} ${getCycleSubtext()}`;
+
+      document.getElementById("confInvoiceBox").value =
+`╭━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╮
+┃            TIAN HOSTING — ORDER TICKET           ┃
+┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+┃ • Plan: ${activeOrderPlan.name} (${activeOrderPlan.ram} | ${activeOrderPlan.cpu} | ${activeOrderPlan.disk})
+┃ • Server Name: ${name}
+┃ • Location: ${region}
+┃ • Engine: ${engine}
+┃ • Total Price: ${total}
+┃ • Client Email: ${userStr}
+╰━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╯`;
+    }
+
+    ["confServerName", "confRegion", "confEngine"].forEach(id => {
+      document.getElementById(id).addEventListener("input", buildInvoiceSummary);
+      document.getElementById(id).addEventListener("change", buildInvoiceSummary);
+    });
+
+    window.submitOrderAndOpenDiscord = async function () {
+      buildInvoiceSummary();
+      const text = document.getElementById("confInvoiceBox").value;
+      await navigator.clipboard.writeText(text);
+
+      try {
+        await push(ref(db, "tian_hosting/orders"), {
+          planName: activeOrderPlan.name,
+          serverName: document.getElementById("confServerName").value.trim() || "MyTianServer",
+          region: document.getElementById("confRegion").value,
+          software: document.getElementById("confEngine").value,
+          priceDisplay: `${formatPrice(activeOrderPlan.price)} ${getCycleSubtext()}`,
+          userEmail: currentUser ? currentUser.email : "Guest",
+          createdAt: new Date().toISOString()
         });
+      } catch (_) {}
 
-        // نظام تسجيل الدخول والخروج
-        const loginBtn = document.getElementById('login-btn');
-        const logoutBtn = document.getElementById('logout-btn');
-        const userInfo = document.getElementById('user-info');
-        const userNameText = document.getElementById('user-name');
-        const userPic = document.getElementById('user-pic');
+      toast("Order Invoice copied! Opening Support Discord...");
+      setTimeout(() => {
+        window.open(discordInviteUrl, "_blank", "noopener,noreferrer");
+      }, 550);
+    };
 
-        loginBtn.addEventListener('click', async () => {
-            try {
-                await signInWithPopup(auth, provider);
-            } catch (error) {
-                Swal.fire('Error', 'فشل تسجيل الدخول', 'error');
-            }
+    window.copyOrderOnly = async function () {
+      buildInvoiceSummary();
+      await navigator.clipboard.writeText(document.getElementById("confInvoiceBox").value);
+      toast("Order Invoice copied to clipboard!");
+    };
+
+    // Firebase Live Settings Sync
+    function syncDomSettings() {
+      ["topDiscordLink", "navDiscordLink", "heroDiscordBtn", "footerDiscordBtn"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.href = discordInviteUrl;
+      });
+      const ann = document.getElementById("announcementText");
+      if (ann) ann.textContent = statusAnnouncement;
+
+      const dIn = document.getElementById("ownerDiscordUrlInput");
+      const bIn = document.getElementById("ownerBannerInput");
+      if (dIn) dIn.value = discordInviteUrl;
+      if (bIn) bIn.value = statusAnnouncement;
+    }
+
+    onValue(ref(db, "tian_hosting/settings"), (snap) => {
+      const data = snap.val();
+      if (data) {
+        if (data.discordLink) {
+          discordInviteUrl = data.discordLink;
+          localStorage.setItem("tian_discord_url", discordInviteUrl);
+        }
+        if (data.announcement) {
+          statusAnnouncement = data.announcement;
+          localStorage.setItem("tian_status_text", statusAnnouncement);
+        }
+        syncDomSettings();
+      }
+    }, () => syncDomSettings());
+
+    onValue(ref(db, "tian_hosting/orders"), (snap) => {
+      const feed = document.getElementById("ownerOrdersFeed");
+      if (!feed) return;
+      const val = snap.val();
+      if (!val) {
+        feed.innerHTML = `<div class="text-slate-500 py-2">No customer orders logged yet.</div>`;
+        return;
+      }
+      const items = Object.values(val).reverse().slice(0, 15);
+      feed.innerHTML = items.map(o => `
+        <div class="p-3 rounded-xl bg-obsidian-900 border border-white/[0.06] flex items-center justify-between gap-2">
+          <div>
+            <span class="text-sky-400 font-bold">${o.planName}</span> — <span class="text-white">${o.serverName}</span>
+            <div class="text-[10px] text-slate-400">${o.userEmail || 'Guest'} • ${o.region}</div>
+          </div>
+          <span class="text-emerald-400 font-bold shrink-0">${o.priceDisplay}</span>
+        </div>
+      `).join("");
+    });
+
+    // Google Authentication & Owner Verification
+    window.loginWithGoogle = async function () {
+      try {
+        const res = await signInWithPopup(auth, provider);
+        const u = res.user;
+        if (u.email && u.email.toLowerCase() === OWNER_EMAIL) {
+          toast("Welcome Owner Kareem! Owner Command Center unlocked.");
+          openOwnerModal();
+        } else {
+          toast(`Welcome, ${u.displayName || u.email}!`);
+        }
+      } catch (e) {
+        console.error(e);
+        toast("Sign-in popup closed or domain needs authorization in Firebase Console.");
+      }
+    };
+
+    window.logoutGoogle = async function () {
+      await signOut(auth);
+      toast("Signed out successfully.");
+    };
+
+    onAuthStateChanged(auth, (user) => {
+      currentUser = user;
+      const signInBtn = document.getElementById("googleSignInBtn");
+      const chip = document.getElementById("userProfileChip");
+      const ownerBtn = document.getElementById("ownerAdminBtn");
+      const ownerTag = document.getElementById("ownerRoleTag");
+
+      if (user) {
+        isOwner = user.email && user.email.toLowerCase() === OWNER_EMAIL;
+        signInBtn.classList.add("hidden");
+        chip.classList.remove("hidden");
+        chip.classList.add("flex");
+
+        document.getElementById("userAvatarImg").src = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || "U")}&background=0284c7&color=fff`;
+        document.getElementById("userNameTxt").textContent = user.displayName || "Client";
+        document.getElementById("userEmailTxt").textContent = user.email;
+
+        if (isOwner) {
+          ownerBtn.classList.remove("hidden");
+          ownerBtn.classList.add("inline-flex");
+          ownerTag.classList.remove("hidden");
+        } else {
+          ownerBtn.classList.add("hidden");
+          ownerBtn.classList.remove("inline-flex");
+          ownerTag.classList.add("hidden");
+        }
+      } else {
+        isOwner = false;
+        signInBtn.classList.remove("hidden");
+        chip.classList.add("hidden");
+        chip.classList.remove("flex");
+        ownerBtn.classList.add("hidden");
+        ownerBtn.classList.remove("inline-flex");
+        ownerTag.classList.add("hidden");
+      }
+    });
+
+    // Owner Modal Handlers
+    window.openOwnerModal = function () {
+      if (!isOwner) {
+        toast("Access restricted to Owner (kareemwael0213@gmail.com).");
+        return;
+      }
+      syncDomSettings();
+      const m = document.getElementById("ownerModal");
+      m.classList.remove("hidden");
+      m.classList.add("flex");
+    };
+
+    window.closeOwnerModal = function () {
+      const m = document.getElementById("ownerModal");
+      m.classList.add("hidden");
+      m.classList.remove("flex");
+    };
+
+    window.saveOwnerConfig = async function () {
+      if (!isOwner) return;
+      const newUrl = document.getElementById("ownerDiscordUrlInput").value.trim() || "https://discord.gg/tianhosting";
+      const newBan = document.getElementById("ownerBannerInput").value.trim() || statusAnnouncement;
+
+      discordInviteUrl = newUrl;
+      statusAnnouncement = newBan;
+      localStorage.setItem("tian_discord_url", discordInviteUrl);
+      localStorage.setItem("tian_status_text", statusAnnouncement);
+      syncDomSettings();
+
+      try {
+        await set(ref(db, "tian_hosting/settings"), {
+          discordLink: discordInviteUrl,
+          announcement: statusAnnouncement,
+          updatedBy: currentUser.email,
+          updatedAt: new Date().toISOString()
         });
+        toast("Support Discord URL & Banner published live to Firebase!");
+      } catch (_) {
+        toast("Saved locally & applied! (Check Firebase Database rules for public write)");
+      }
+      closeOwnerModal();
+    };
 
-        logoutBtn.addEventListener('click', () => {
-            signOut(auth);
-        });
+    // Interactive Terminal Simulator
+    window.simConsole = function (act) {
+      const logs = document.getElementById("termLogs");
+      const badge = document.getElementById("termBadge");
+      if (act === "start") {
+        badge.className = "text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30";
+        badge.textContent = "ONLINE • 20.0 TPS";
+        logs.insertAdjacentHTML("beforeend", `<div class="text-emerald-400">[DAEMON]: Container started. Server is accepting connections.</div>`);
+      } else if (act === "restart") {
+        logs.insertAdjacentHTML("beforeend", `<div class="text-amber-400">[DAEMON]: Graceful restart initiated... Completed in 1.2s!</div>`);
+      } else {
+        badge.className = "text-[10px] font-mono px-2 py-0.5 rounded bg-rose-500/15 text-rose-400 border border-rose-500/30";
+        badge.textContent = "OFFLINE";
+        logs.insertAdjacentHTML("beforeend", `<div class="text-rose-400">[DAEMON]: Saving worlds and stopping container...</div>`);
+      }
+      logs.scrollTop = logs.scrollHeight;
+    };
 
-        // مراقبة حالة تسجيل الدخول
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                currentUser = user;
-                loginBtn.classList.add('hidden');
-                userInfo.classList.remove('hidden');
-                userNameText.innerText = user.displayName;
-                userPic.src = user.photoURL;
-            } else {
-                currentUser = null;
-                loginBtn.classList.remove('hidden');
-                userInfo.classList.add('hidden');
-            }
-        });
+    window.handleTermInput = function (e) {
+      e.preventDefault();
+      const inp = document.getElementById("termCmdInput");
+      const cmd = inp.value.trim();
+      if (!cmd) return;
+      const logs = document.getElementById("termLogs");
+      logs.insertAdjacentHTML("beforeend", `<div class="text-white">&gt; ${cmd}</div>`);
+      const c = cmd.toLowerCase();
+      if (c === "tps") {
+        logs.insertAdjacentHTML("beforeend", `<div class="text-emerald-400">[Paper]: TPS from last 1m, 5m, 15m: *20.0, *20.0, *20.0 (MSPT: 3.8ms)</div>`);
+      } else if (c === "list") {
+        logs.insertAdjacentHTML("beforeend", `<div class="text-sky-400">[Paper]: There are 24 of a max of 100 players online.</div>`);
+      } else if (c === "backup") {
+        logs.insertAdjacentHTML("beforeend", `<div class="text-indigo-400">[Backup]: Snapshot compressed to NVMe storage in 0.7s.</div>`);
+      } else {
+        logs.insertAdjacentHTML("beforeend", `<div class="text-slate-400">[Server]: Executed "${cmd}" successfully.</div>`);
+      }
+      inp.value = "";
+      logs.scrollTop = logs.scrollHeight;
+    };
 
-        // دالة طلب السيرفر
-        window.orderPlan = async (planName, price) => {
-            // لو مش مسجل دخول، نطلب منه يسجل الأول
-            if (!currentUser) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Login Required',
-                    text: 'Please login first to order a server.',
-                    confirmButtonText: 'Login Now',
-                    confirmButtonColor: '#10b981'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        signInWithPopup(auth, provider);
-                    }
-                });
-                return;
-            }
+    window.toast = function (msg) {
+      const box = document.getElementById("toastBanner");
+      document.getElementById("toastText").textContent = msg;
+      box.classList.remove("hidden");
+      box.classList.add("flex");
+      setTimeout(() => {
+        box.classList.add("hidden");
+        box.classList.remove("flex");
+      }, 3800);
+    };
 
-            // لو مسجل دخول، نأكد عليه الطلب ونسجل في الداتا بيز
-            const { value: discordUser } = await Swal.fire({
-                title: 'Order ' + planName,
-                text: 'Enter your Discord Username so we can contact you:',
-                input: 'text',
-                inputPlaceholder: 'e.g. user#1234',
-                showCancelButton: true,
-                confirmButtonColor: '#10b981',
-                confirmButtonText: 'Confirm Order',
-                inputValidator: (value) => {
-                    if (!value) {
-                        return 'You need to write your Discord username!'
-                    }
-                }
-            });
+    setInterval(() => {
+      const v = (14 + Math.random() * 10).toFixed(1);
+      const txt = document.getElementById("liveCpuTxt");
+      const bar = document.getElementById("liveCpuBar");
+      if (txt && bar) {
+        txt.textContent = `${v}% / 150%`;
+        bar.style.width = `${v}%`;
+      }
+    }, 2400);
 
-            if (discordUser) {
-                Swal.fire({
-                    title: 'Processing...',
-                    text: 'Saving your order...',
-                    allowOutsideClick: false,
-                    didOpen: () => {
-                        Swal.showLoading()
-                    }
-                });
-
-                try {
-                    // حفظ الطلب في Firestore
-                    const docRef = await addDoc(collection(db, "server_orders"), {
-                        userEmail: currentUser.email,
-                        userName: currentUser.displayName,
-                        discordUsername: discordUser,
-                        plan: planName,
-                        price: price,
-                        status: "Awaiting Payment via Discord",
-                        createdAt: serverTimestamp()
-                    });
-
-                    // إظهار رسالة النجاح وتعليمات الدفع
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Order Placed!',
-                        html: `
-                            <p class="mb-4">Your order ID is: <br><strong class="text-emerald-500 bg-gray-800 p-1 rounded select-all">${docRef.id}</strong></p>
-                            <div class="bg-gray-100 text-gray-900 p-4 rounded-lg text-left">
-                                <h4 class="font-bold mb-2 border-b pb-2">Payment Instructions:</h4>
-                                <p class="text-sm">1. Copy your Order ID.</p>
-                                <p class="text-sm">2. Open Discord and send a Direct Message to: <strong class="text-indigo-600 font-bold text-lg">__zito__</strong></p>
-                                <p class="text-sm">3. Send him your Order ID to complete the payment and receive your server IP.</p>
-                            </div>
-                        `,
-                        confirmButtonText: 'Understood',
-                        confirmButtonColor: '#10b981'
-                    });
-
-                } catch (error) {
-                    console.error("Error adding document: ", error);
-                    Swal.fire('Error', 'حدث خطأ أثناء تسجيل الطلب، يرجى المحاولة لاحقاً', 'error');
-                }
-            }
-        };
-    </script>
+    // Boot
+    syncDomSettings();
+    renderAllPricing();
+    runCalculator();
+    lucide.createIcons();
+  </script>
 </body>
 </html>
