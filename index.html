@@ -115,6 +115,11 @@ radial-gradient(ellipse at 85% 80%,#29194b 0,transparent 40%),var(--bg)}
    <p class="muted">Sign in to enter the community.</p>
    <input class="field" id="loginEmail" type="email" placeholder="Email address" autocomplete="email">
    <input class="field" id="loginPassword" type="password" placeholder="Password" autocomplete="current-password">
+<button class="secondary" id="googleLoginBtn" style="width:100%;margin-top:12px">
+  <span style="font-weight:900;margin-right:8px">G</span>
+  Continue with Google
+</button>
+
    <button class="primary" id="loginBtn">SIGN IN</button>
    <p class="muted">New here? <span class="link" id="showRegister">Create an account</span></p>
   </div>
@@ -505,7 +510,42 @@ async function loadSubmissions(){
   });
   $("adminSubmissions").innerHTML=rows.length?rows.reverse().join(""):"No submissions yet.";
  }catch(e){$("adminSubmissions").textContent="Unable to load submissions: "+e.message;}
-}
+};
+  
+const googleProvider = new firebase.auth.GoogleAuthProvider();
+
+$("googleLoginBtn").onclick = async () => {
+  showError("");
+
+  try {
+    googleProvider.setCustomParameters({
+      prompt: "select_account"
+    });
+
+    await auth.signInWithPopup(googleProvider);
+
+    toast("Google login successful!");
+  } catch (error) {
+    if (error.code === "auth/popup-closed-by-user") return;
+
+    if (error.code === "auth/popup-blocked") {
+      try {
+        await auth.signInWithRedirect(googleProvider);
+      } catch (redirectError) {
+        showError(redirectError.message);
+      }
+      return;
+    }
+
+    showError(error.message);
+  }
+};
+
+// استعادة تسجيل الدخول بعد الرجوع من Google Redirect
+auth.getRedirectResult().catch(error => {
+  showError(error.message);
+});
+
 </script>
 </body>
 </html>
