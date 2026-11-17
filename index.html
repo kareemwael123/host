@@ -217,7 +217,7 @@
   .searchbox input{padding:9px 38px 9px 14px;width:250px;border-radius:11px}
   .searchbox::before{content:"🔍";position:absolute;inset-inline-start:12px;top:50%;transform:translateY(-50%);font-size:13px;opacity:.6}
   .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:15px;background:#fff}
-  table{width:100%;border-collapse:collapse;min-width:940px;font-size:13.5px}
+  table{width:100%;border-collapse:collapse;min-width:1060px;font-size:13.5px}
   thead th{
     background:var(--soft);text-align:right;padding:11px 13px;white-space:nowrap;
     border-bottom:1px solid var(--line);font-weight:900;color:#3c4a61;font-size:13px;
@@ -233,6 +233,7 @@
   .foot b{color:var(--ink)}
 
   .netwarn{max-width:760px;margin:18px auto 0}
+  .insecure{max-width:1080px;margin:16px auto 0;padding:0 22px}
 
   @media (max-width:920px){
     .cards{grid-template-columns:1fr 1fr}
@@ -283,6 +284,9 @@
     </button>
   </div>
 </header>
+
+<!-- تنبيه الاتصال غير الآمن (Not secure) -->
+<div id="insecureBanner" class="msg msg-warn insecure hidden"></div>
 
 <main>
 
@@ -476,6 +480,12 @@
                 <span class="hint">يُستخدم للتواصل مع ولي الأمر بخصوص المتابعة والالتزام.</span>
               </div>
 
+              <div class="field full">
+                <label>الرقم القومي <span class="req">*</span></label>
+                <input id="inpNationalId" type="tel" inputmode="numeric" maxlength="14" placeholder="14 رقمًا — مثال: 30905120100150">
+                <span class="hint" id="nidHint">14 رقمًا — يتم التحقق من صحته تلقائيًا: خانة التحقق + تاريخ الميلاد + النوع.</span>
+              </div>
+
               <div class="field">
                 <label>الجنسية <span class="req">*</span></label>
                 <input id="inpNationality" type="text" placeholder="مثال: مصري">
@@ -523,6 +533,7 @@
                 <th>البريد الإلكتروني</th>
                 <th>المجال</th>
                 <th>اليوم</th>
+                <th>الرقم القومي</th>
                 <th>رقم الطالب</th>
                 <th>رقم الوالد/الوالدة</th>
                 <th>الجنسية</th>
@@ -531,7 +542,7 @@
               </tr>
             </thead>
             <tbody id="adminTableBody">
-              <tr class="empty-row"><td colspan="10">لا توجد تسجيلات بعد.</td></tr>
+              <tr class="empty-row"><td colspan="11">لا توجد تسجيلات بعد.</td></tr>
             </tbody>
           </table>
         </div>
@@ -570,7 +581,34 @@
       }
     }
   }
+
+  4) تنبيه «Not secure» في المتصفح: معناه أن الموقع يعمل عبر http بدون شهادة SSL —
+     الحل من الاستضافة (مش من الملف): فعِّل شهادة SSL مجانية (Let's Encrypt / AutoSSL
+     من لوحة الاستضافة أو Cloudflare) وفعِّل «Force HTTPS Redirect»، ثم افتح الموقع
+     من https://… — إلزامي لأن الموقع يستقبل الرقم القومي وأرقام الهواتف.
 -->
+
+<script>
+  // تنبيه فوري عند الفتح خارج موقع آمن (file:// أو http غير محلي) — سبب ظهور «Not secure»
+  (function () {
+    function check() {
+      var p = location.protocol, h = location.hostname;
+      var isLocal = h === "localhost" || h === "127.0.0.1" || h.slice(-10) === ".localhost";
+      var msg = "";
+      if (p === "file:") {
+        msg = "⚠ أنت تفتح الملف مباشرة من جهازك — الدخول بحساب جوجل لن يعمل من هنا. ارفع المنصة على موقع بشهادة أمنية (https) وأضف الدومين إلى Authorized domains في Firebase، ثم افتحها من الدومين الرسمي.";
+      } else if (p === "http:" && !isLocal) {
+        msg = "⚠ الاتصال غير آمن (http) — لهذا يظهر تنبيه «Not secure» في المتصفح. الحل من الاستضافة: فعِّل شهادة SSL مجانية (Let's Encrypt / AutoSSL أو Cloudflare) وفعِّل التحويل التلقائي إلى https، ثم أعد فتح الموقع من https://…";
+      }
+      if (msg) {
+        var b = document.getElementById("insecureBanner");
+        if (b) { b.textContent = msg; b.classList.remove("hidden"); }
+      }
+    }
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", check);
+    else check();
+  })();
+</script>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/13.3.0/firebase-app.js";
@@ -628,6 +666,8 @@
   const inpParent     = $("inpParent");
   const inpNationality= $("inpNationality");
   const inpSchool     = $("inpSchool");
+  const inpNationalId = $("inpNationalId");
+  const nidHint       = $("nidHint");
   const formReg       = $("formReg");
   const btnSave       = $("btnSave");
   const msgOk         = $("msgOk");
@@ -744,14 +784,73 @@
     inpParent.value = r.parentPhone || "";
     inpNationality.value = r.nationality || "";
     inpSchool.value = r.school || "";
+    inpNationalId.value = r.nationalId || "";
     const radio = document.querySelector('input[name="day"][value="' + (r.day || "") + '"]');
     if (radio) radio.checked = true;
+    updateNidHint();
   }
   function resetForm() {
     formReg.reset();
+    nidHint.textContent = NID_DEFAULT_HINT;
+    nidHint.style.color = "";
     msgOk.classList.add("hidden");
     msgErr.classList.add("hidden");
   }
+
+  // ===== التحقق من الرقم القومي المصري (14 رقمًا) =====
+  // البنية: خانة القرن (2=1900s، 3=2000s) + تاريخ الميلاد (يوم/شهر/سنة) + كود المحافظة
+  // + رقم تسلسلي آخر رقم فيه يحدد النوع (فردي=ذكر، زوجي=أنثى) + خانة تحقق.
+  // ملاحظة: طريقة حساب خانة التحقق الرسمية غير منشورة؛ الخوارزمية أدناه (أوزان 2..9
+  // بمعامل 11) هي المتداولة بين المطورين — لذلك عدم مطابقتها تحذير لا رفض، حتى لا
+  // يُمنع رقم قومي حقيقي بسبب اختلاف الخوارزمية.
+  const NID_DEFAULT_HINT = "14 رقمًا — يتم التحقق من صحته تلقائيًا: تاريخ الميلاد + المحافظة + النوع + خانة التحقق.";
+  function validateNationalId(id) {
+    if (!/^[23]\d{13}$/.test(id))
+      return { ok: false, msg: "الرقم القومي يجب أن يكون 14 رقمًا ويبدأ بـ 2 أو 3." };
+    const year = Number((id[0] === "2" ? "19" : "20") + id.substr(1, 2));
+    const month = Number(id.substr(3, 2));
+    const day = Number(id.substr(5, 2));
+    if (month < 1 || month > 12) return { ok: false, msg: "شهر الميلاد داخل الرقم غير صحيح." };
+    const daysInMonth = new Date(year, month, 0).getDate();
+    if (day < 1 || day > daysInMonth) return { ok: false, msg: "يوم الميلاد داخل الرقم غير صحيح." };
+    if (new Date(year, month - 1, day) > new Date())
+      return { ok: false, msg: "تاريخ الميلاد داخل الرقم في المستقبل — الرقم غير صحيح." };
+    const gov = Number(id.substr(7, 2));
+    if (gov < 1 || gov > 88) return { ok: false, msg: "كود المحافظة داخل الرقم غير صحيح." };
+    const w = [2, 3, 4, 5, 6, 7, 8, 9, 2, 3, 4, 5, 6, 7];
+    let sum = 0;
+    for (let i = 0; i < 13; i++) sum += Number(id[i]) * w[i];
+    const chk = (sum % 11) < 10 ? (sum % 11) : 0;
+    return {
+      ok: true,
+      checksumOk: chk === Number(id[13]),
+      birthDate: year + "-" + id.substr(3, 2) + "-" + id.substr(5, 2),
+      gender: (Number(id[12]) % 2 === 1) ? "ذكر" : "أنثى"
+    };
+  }
+  function updateNidHint() {
+    const v = inpNationalId.value.replace(/\D/g, "").slice(0, 14);
+    if (v !== inpNationalId.value) inpNationalId.value = v;
+    if (v.length < 14) {
+      nidHint.textContent = NID_DEFAULT_HINT;
+      nidHint.style.color = "";
+      return;
+    }
+    const r = validateNationalId(v);
+    if (!r.ok) {
+      nidHint.textContent = "⚠ " + r.msg;
+      nidHint.style.color = "var(--err)";
+      return;
+    }
+    if (r.checksumOk) {
+      nidHint.textContent = "✅ رقم صحيح — تاريخ الميلاد: " + r.birthDate + " · النوع: " + r.gender + " · واجتاز خانة التحقق.";
+      nidHint.style.color = "var(--ok)";
+    } else {
+      nidHint.textContent = "⚠ بنية الرقم صحيحة (تاريخ الميلاد: " + r.birthDate + " · النوع: " + r.gender + ") لكن خانة التحقق غير مطابقة — راجع الأرقام مرة أخرى.";
+      nidHint.style.color = "var(--warn)";
+    }
+  }
+  inpNationalId.addEventListener("input", updateNidHint);
 
   function phoneOk(v) {
     const digits = v.replace(/\D/g, "");
@@ -769,6 +868,7 @@
     const parentPhone  = inpParent.value.trim();
     const nationality  = inpNationality.value.trim();
     const school       = inpSchool.value.trim();
+    const nationalId   = inpNationalId.value.trim();
 
     const errors = [];
     if (!selField.value) errors.push("اختر مجال التعلم.");
@@ -777,6 +877,9 @@
     if (!phoneOk(parentPhone))  errors.push("رقم الوالد أو الوالدة غير صحيح — أدخل رقمًا من 8 إلى 15 رقمًا.");
     if (!nationality) errors.push("اكتب الجنسية.");
     if (!school) errors.push("اكتب اسم المدرسة.");
+    if (!nationalId) errors.push("أدخل الرقم القومي.");
+    const nid = validateNationalId(nationalId);
+    if (nationalId && !nid.ok) errors.push("الرقم القومي: " + nid.msg);
 
     if (errors.length) {
       msgErr.textContent = "⚠ " + errors.join(" ");
@@ -800,8 +903,10 @@
       parentPhone: parentPhone,
       nationality: nationality,
       school: school,
+      nationalId: nationalId,
       updatedAt: serverTimestamp()
     };
+    if (nid.ok) { data.birthDate = nid.birthDate; data.gender = nid.gender; }
     if (wasNew) data.createdAt = serverTimestamp();
 
     try {
@@ -856,7 +961,7 @@
     const term = (adminSearch.value || "").trim().toLowerCase();
     const rows = allRegs.filter(r => {
       if (!term) return true;
-      return [r.name, r.email, r.field, r.day, r.nationality, r.school, r.studentPhone, r.parentPhone]
+      return [r.name, r.email, r.field, r.day, r.nationalId, r.nationality, r.school, r.studentPhone, r.parentPhone]
         .some(v => (v || "").toString().toLowerCase().includes(term));
     });
 
@@ -867,7 +972,7 @@
       const tr = document.createElement("tr");
       tr.className = "empty-row";
       const td = document.createElement("td");
-      td.colSpan = 10;
+      td.colSpan = 11;
       td.textContent = term ? "لا توجد نتائج مطابقة للبحث." : "لا توجد تسجيلات بعد.";
       tr.appendChild(td);
       adminBody.appendChild(tr);
@@ -882,6 +987,7 @@
         r.email || "—",
         r.field || "—",
         r.day || "—",
+        r.nationalId || "—",
         r.studentPhone || "—",
         r.parentPhone || "—",
         r.nationality || "—",
@@ -907,12 +1013,13 @@
 
   // ===== تصدير CSV =====
   btnCsv.addEventListener("click", () => {
-    const head = ["م", "الاسم", "البريد الإلكتروني", "المجال", "اليوم", "رقم الطالب", "رقم الوالد/الوالدة", "الجنسية", "المدرسة", "تاريخ التسجيل"];
+    const head = ["م", "الاسم", "البريد الإلكتروني", "المجال", "اليوم", "الرقم القومي", "تاريخ الميلاد", "النوع", "رقم الطالب", "رقم الوالد/الوالدة", "الجنسية", "المدرسة", "تاريخ التسجيل"];
     const lines = [head];
     allRegs.forEach((r, i) => {
       lines.push([
         String(i + 1),
         r.name || "", r.email || "", r.field || "", r.day || "",
+        r.nationalId || "", r.birthDate || "", r.gender || "",
         r.studentPhone || "", r.parentPhone || "",
         r.nationality || "", r.school || "",
         fmtDate(r.createdAt)
