@@ -1,551 +1,940 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KEO HUB — Gaming Community</title>
-<meta name="theme-color" content="#090b12">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>منصة TIAN MC | التسجيل</title>
+<meta name="description" content="منصة TIAN MC (Machine Cognition) — أربعة مسارات تقنية: تطوير المواقع، تطوير البرامج، تطوير الألعاب، الأمن السيبراني.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='%231e40af'/%3E%3Ctext%20x='32'%20y='41'%20font-family='Arial'%20font-size='24'%20font-weight='bold'%20fill='white'%20text-anchor='middle'%3EMC%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#090b12;--panel:#101522;--panel2:#151c2c;--line:#252e42;
-  --text:#edf2ff;--muted:#8995ae;--cyan:#35e5ff;--purple:#9865ff;
-  --green:#39e6a0;--red:#ff5878;
-}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,Arial,sans-serif}
-button,input,textarea{font:inherit}
-button{cursor:pointer}
-.hidden{display:none!important}
-#authScreen{min-height:100vh;display:grid;place-items:center;padding:24px;
-background:radial-gradient(ellipse at 20% 10%,#19304b 0,transparent 45%),
-radial-gradient(ellipse at 85% 80%,#29194b 0,transparent 40%),var(--bg)}
-.auth-card{width:min(430px,100%);padding:35px;background:#101522ed;border:1px solid var(--line);border-radius:22px;box-shadow:0 20px 90px #0008}
-.logo{font-size:27px;font-weight:900;letter-spacing:2px}
-.logo span{color:var(--cyan)}
-.tagline{color:var(--muted);font-size:13px;margin:8px 0 28px}
-.field{width:100%;padding:14px 15px;background:#0b101b;color:white;border:1px solid var(--line);border-radius:11px;outline:none;margin:7px 0}
-.field:focus{border-color:var(--cyan)}
-.primary{border:0;background:linear-gradient(100deg,var(--cyan),#8d75ff);color:#061019;font-weight:900;padding:13px 18px;border-radius:11px;width:100%;margin-top:12px}
-.primary:hover{filter:brightness(1.12)}
-.secondary{background:var(--panel2);border:1px solid var(--line);color:var(--text);padding:10px 14px;border-radius:10px}
-.link{color:var(--cyan);cursor:pointer;font-size:13px}
-.error{color:var(--red);font-size:12px;min-height:18px;margin-top:10px}
-#app{min-height:100vh;display:grid;grid-template-columns:245px minmax(0,1fr)}
-.sidebar{background:#0d111b;border-right:1px solid var(--line);padding:22px 15px;display:flex;flex-direction:column;gap:18px}
-.brand{padding:4px 9px 15px;border-bottom:1px solid var(--line)}
-.section-label{color:#697791;font-size:10px;font-weight:900;letter-spacing:2px;padding:0 10px}
-.nav{display:flex;align-items:center;gap:11px;padding:12px 13px;color:#aab5cb;border-radius:10px;cursor:pointer;font-size:13px}
-.nav:hover,.nav.active{background:#182337;color:var(--cyan)}
-.nav .ico{width:20px;text-align:center}
-.user-mini{margin-top:auto;padding:12px;background:var(--panel);border:1px solid var(--line);border-radius:13px;display:flex;align-items:center;gap:10px;min-width:0}
-.avatar{width:36px;height:36px;flex-shrink:0;border-radius:12px;background:linear-gradient(135deg,var(--cyan),var(--purple));display:grid;place-items:center;color:#08101b;font-weight:900}
-.user-mini small{display:block;color:var(--muted);font-size:10px;margin-top:4px}
-.main{min-width:0}
-.topbar{height:68px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 28px;background:#0b1019}
-.topbar h3{font-size:14px}
-.top-actions{display:flex;gap:9px;align-items:center}
-.content{padding:28px;max-width:1400px;margin:auto}
-.hero{padding:28px;border:1px solid #294258;border-radius:19px;background:linear-gradient(110deg,#132a3b,#1b1740);position:relative;overflow:hidden}
-.hero:after{content:"";position:absolute;width:250px;height:250px;border-radius:50%;background:#35e5ff18;right:-70px;top:-100px;filter:blur(10px)}
-.eyebrow{color:var(--cyan);font-size:10px;font-weight:900;letter-spacing:2px}
-.hero h1{font-size:clamp(27px,4vw,43px);margin:13px 0 8px;letter-spacing:-1.5px}
-.hero p{color:#b5c3d8;font-size:13px;max-width:550px;line-height:1.7}
-.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px;margin:18px 0}
-.stat,.card{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:18px}
-.stat small{color:var(--muted);font-size:11px}
-.stat strong{display:block;font-size:25px;margin-top:9px}
-.grid{display:grid;grid-template-columns:1.5fr 1fr;gap:16px;margin-top:16px}
-.card h3{font-size:14px;margin:0 0 16px}
-.muted{color:var(--muted);font-size:12px}
-.row{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.chat-layout{display:grid;grid-template-columns:180px 1fr;gap:14px;min-height:540px}
-.channel-list{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px}
-.channel{padding:11px;border-radius:9px;color:var(--muted);cursor:pointer;font-size:12px;margin:4px 0}
-.channel.active,.channel:hover{background:#1b2a40;color:var(--cyan)}
-.chat-box{display:flex;flex-direction:column;background:var(--panel);border:1px solid var(--line);border-radius:14px;min-width:0;overflow:hidden}
-.chat-head{padding:15px;border-bottom:1px solid var(--line);font-size:13px}
-.messages{flex:1;min-height:300px;max-height:460px;overflow:auto;padding:16px}
-.message{padding:10px 0;border-bottom:1px solid #20283a}
-.message b{font-size:12px;color:var(--cyan)}
-.message p{font-size:13px;line-height:1.5;margin:5px 0;overflow-wrap:anywhere}
-.message time{font-size:10px;color:#697791}
-.chat-form{display:flex;gap:8px;padding:12px;border-top:1px solid var(--line)}
-.chat-form input{flex:1;min-width:0;margin:0}
-.chat-form button{width:auto;margin:0}
-.quest{padding:15px;border:1px solid var(--line);border-radius:12px;margin:10px 0;background:#121a29}
-.quest h4{margin:0 0 7px;font-size:13px}
-.quest p{font-size:12px;color:var(--muted);line-height:1.6}
-.pill{font-size:10px;padding:5px 8px;border-radius:20px;background:#193a40;color:var(--cyan)}
-.profile-box{display:flex;align-items:center;gap:17px;padding:20px;background:var(--panel);border:1px solid var(--line);border-radius:15px}
-.big-avatar{width:70px;height:70px;border-radius:20px;font-size:25px}
-.table{width:100%;border-collapse:collapse;font-size:12px}
-.table td,.table th{text-align:left;padding:13px;border-bottom:1px solid var(--line)}
-.table th{color:var(--muted);font-size:10px}
-.toast{position:fixed;right:20px;bottom:20px;background:#17263a;border:1px solid #31516b;padding:13px 18px;border-radius:12px;font-size:12px;z-index:10;box-shadow:0 10px 35px #0008}
-.mobile-menu{display:none}
-.empty{padding:25px;text-align:center;color:var(--muted);font-size:12px}
-@media(max-width:850px){
- #app{grid-template-columns:1fr}
- .sidebar{position:fixed;z-index:5;bottom:0;left:0;right:0;height:65px;padding:6px 8px;display:flex;flex-direction:row;justify-content:space-around;border-right:0;border-top:1px solid var(--line)}
- .sidebar .brand,.sidebar .section-label,.sidebar .user-mini{display:none}
- .sidebar .nav{padding:8px;flex-direction:column;gap:3px;font-size:9px;flex:1;justify-content:center}
- .sidebar .nav .ico{font-size:17px}
- .main{padding-bottom:65px}
- .topbar{padding:0 15px}
- .content{padding:15px}
- .stats{grid-template-columns:repeat(2,1fr)}
- .grid{grid-template-columns:1fr}
- .chat-layout{grid-template-columns:1fr}
- .channel-list{display:flex;gap:5px;overflow:auto}
- .channel{white-space:nowrap}
-}
+  :root{
+    --ink:#0f172a;
+    --muted:#5b6b83;
+    --line:#e4e9f1;
+    --soft:#f7f9fc;
+    --brand:#1e40af;
+    --brand-dark:#17307e;
+    --brand-soft:#eef2ff;
+    --ok:#0f766e;
+    --ok-bg:#f0fdf9;
+    --ok-line:#b7e4d6;
+    --err:#b91c1c;
+    --err-bg:#fef4f4;
+    --err-line:#f3cccc;
+    --warn:#92400e;
+    --warn-bg:#fffcf2;
+    --warn-line:#f3e3bb;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    font-family:'Cairo','Segoe UI',Tahoma,Arial,sans-serif;
+    background:#ffffff;
+    color:var(--ink);
+    line-height:1.85;
+    font-size:16px;
+  }
+  .container{max-width:1080px;margin:0 auto;padding:0 22px}
+  .hidden{display:none!important}
+  section{scroll-margin-top:90px}
+  h1,h2,h3{line-height:1.4;margin:0 0 12px}
+  p{margin:0 0 10px}
+  a{color:var(--brand);text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  /* ===== شريط علوي رسمي ===== */
+  .topline{height:5px;background:linear-gradient(90deg,var(--brand-dark),var(--brand))}
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(255,255,255,.96);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .head{display:flex;align-items:center;gap:18px;padding-top:12px;padding-bottom:12px;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:12px}
+  .logo-badge{
+    width:48px;height:48px;border-radius:13px;flex:0 0 auto;
+    background:linear-gradient(135deg,var(--brand-dark),var(--brand));
+    color:#fff;font-weight:900;font-size:19px;letter-spacing:.5px;
+    display:grid;place-items:center;
+  }
+  .bname{font-weight:900;font-size:19px;letter-spacing:1px}
+  .bsub{font-size:12px;color:var(--muted);font-weight:600}
+  .hnav{display:flex;gap:20px;margin-inline-start:auto;font-weight:700;font-size:14.5px}
+  .hnav a{color:var(--ink)}
+  .hnav a:hover{color:var(--brand);text-decoration:none}
+  .haccount{display:flex;align-items:center;gap:10px;margin-inline-start:auto}
+  .hnav + .haccount{margin-inline-start:0}
+  .avatar{
+    width:38px;height:38px;border-radius:50%;object-fit:cover;
+    border:2px solid var(--brand-soft);background:var(--brand-soft);
+    display:grid;place-items:center;font-weight:800;color:var(--brand);
+  }
+  .acc-name{font-size:13.5px;font-weight:800;line-height:1.2}
+  .acc-mail{font-size:11.5px;color:var(--muted);direction:ltr}
+
+  /* ===== أزرار ===== */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:10px;
+    border-radius:12px;padding:11px 22px;font:inherit;font-weight:800;
+    cursor:pointer;border:1px solid transparent;transition:background .15s,border-color .15s,box-shadow .15s;
+    white-space:nowrap;
+  }
+  .btn:active{transform:translateY(1px)}
+  .btn-primary{background:var(--brand);color:#fff}
+  .btn-primary:hover{background:var(--brand-dark)}
+  .btn-outline{background:#fff;border-color:var(--line);color:var(--ink)}
+  .btn-outline:hover{border-color:#9fb0c8}
+  .btn-google{background:#fff;border:1px solid #d3d8de;color:#2f3640;padding:13px 26px;font-size:16.5px;border-radius:14px}
+  .btn-google:hover{background:#f7f9fc;box-shadow:0 3px 10px rgba(15,23,42,.06)}
+  .btn[disabled]{opacity:.55;cursor:default;pointer-events:none}
+  .btn-sm{padding:8px 16px;font-size:13.5px;border-radius:10px}
+
+  /* ===== الترحيب ===== */
+  .hero{padding:70px 0 34px;text-align:center}
+  .pill{
+    display:inline-block;background:var(--soft);border:1px solid var(--line);
+    color:var(--brand);font-weight:800;font-size:13px;
+    border-radius:999px;padding:6px 18px;margin-bottom:18px;
+  }
+  .hero h1{font-size:clamp(30px,5vw,46px);font-weight:900;margin-bottom:14px}
+  .hero h1 .hl{color:var(--brand)}
+  .hero .lead{max-width:760px;margin:0 auto 8px;color:var(--muted);font-size:17.5px}
+
+  /* ===== شريط المعلومات ===== */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding:26px 0 8px}
+  .stat{
+    background:#fff;border:1px solid var(--line);border-radius:15px;
+    padding:18px 16px;text-align:center;
+  }
+  .stat .sv{font-size:19px;font-weight:900;color:var(--brand)}
+  .stat .sl{font-size:12.5px;color:var(--muted);font-weight:700}
+
+  /* ===== الأقسام ===== */
+  .section{padding:52px 0;border-top:1px solid var(--line);margin-top:36px}
+  .section:first-of-type{border-top:none}
+  .kicker{color:var(--brand);font-weight:900;font-size:13.5px;margin-bottom:6px}
+  .section h2{font-size:27px;font-weight:900}
+  .section .sub{color:var(--muted);max-width:720px}
+
+  .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:26px}
+  .card{
+    background:#fff;border:1px solid var(--line);border-radius:17px;padding:22px 20px;
+    transition:box-shadow .18s,transform .18s;
+  }
+  .card:hover{box-shadow:0 10px 26px rgba(15,23,42,.09);transform:translateY(-2px)}
+  .card .icon{
+    width:46px;height:46px;border-radius:13px;background:var(--brand-soft);
+    display:grid;place-items:center;color:var(--brand);margin-bottom:14px;
+  }
+  .card h3{font-size:17.5px;font-weight:900;margin-bottom:6px}
+  .card p{font-size:14px;color:var(--muted);margin:0}
+  .card .en{display:block;font-size:11.5px;color:#93a2b8;font-weight:700;letter-spacing:.3px;margin-top:8px;direction:ltr;text-align:right}
+
+  /* ===== الخطوات ===== */
+  .steps{list-style:none;margin:26px 0 0;padding:0;counter-reset:st;display:grid;gap:14px}
+  .steps li{
+    counter-increment:st;background:#fff;border:1px solid var(--line);border-radius:15px;
+    padding:16px 18px;display:flex;gap:16px;align-items:flex-start;
+  }
+  .steps li::before{
+    content:counter(st);flex:0 0 auto;
+    width:38px;height:38px;border-radius:50%;background:var(--brand);color:#fff;
+    display:grid;place-items:center;font-weight:900;font-size:16px;margin-top:2px;
+  }
+  .steps b{display:block;font-size:16px;margin-bottom:2px}
+  .steps span{font-size:14.5px;color:var(--muted)}
+
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:26px}
+  .notice{border:1px solid var(--warn-line);background:var(--warn-bg);color:var(--warn);border-radius:15px;padding:18px 20px}
+  .notice h3{font-size:16.5px}
+  .notice p{font-size:14.5px;margin:0}
+  .reward{border:1px solid var(--ok-line);background:var(--ok-bg);color:var(--ok);border-radius:15px;padding:18px 20px}
+  .reward h3{font-size:16.5px}
+  .reward p{font-size:14.5px;margin:0}
+
+  /* ===== بطاقات الدخول والتسجيل ===== */
+  .authcard{
+    max-width:520px;margin:0 auto;background:#fff;border:1px solid var(--line);
+    border-radius:20px;padding:36px 32px;text-align:center;
+    box-shadow:0 14px 40px rgba(15,23,42,.07);
+  }
+  .authcard h2{font-size:23px}
+  .authcard p{color:var(--muted);font-size:15px}
+  .fine{font-size:12.5px;color:#8b99ad;margin-top:16px}
+  .login-err{margin-top:14px;text-align:right}
+
+  .formcard{
+    max-width:760px;margin:0 auto;background:#fff;border:1px solid var(--line);
+    border-radius:20px;padding:32px;box-shadow:0 10px 30px rgba(15,23,42,.06);
+  }
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px 18px}
+  .field{display:flex;flex-direction:column;gap:7px}
+  .field.full{grid-column:1/-1}
+  label{font-weight:800;font-size:14px}
+  label .req{color:var(--err)}
+  input,select{
+    width:100%;border:1px solid #d5dce6;border-radius:11px;background:#fff;
+    padding:11px 14px;font:inherit;font-size:15px;color:var(--ink);
+  }
+  input::placeholder{color:#a5b1c2}
+  input:focus,select:focus{outline:3px solid #dbe5ff;border-color:var(--brand)}
+  input[readonly]{background:var(--soft);color:var(--muted);cursor:not-allowed}
+  .hint{font-size:12px;color:#8b99ad}
+  .day-pills{display:flex;gap:12px;flex-wrap:wrap}
+  .pill-r{position:relative;cursor:pointer}
+  .pill-r input{position:absolute;opacity:0;width:0;height:0}
+  .pill-r span{
+    display:inline-block;border:1.5px solid var(--line);border-radius:999px;
+    padding:9px 28px;font-weight:800;font-size:14.5px;color:var(--muted);transition:.15s;
+  }
+  .pill-r input:checked + span{background:var(--brand);border-color:var(--brand);color:#fff}
+  .pill-r input:focus-visible + span{outline:3px solid #dbe5ff}
+  .form-actions{margin-top:22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .locked-mail{display:flex;gap:10px;align-items:center;background:var(--soft);border:1px dashed #c9d4e4;border-radius:11px;padding:8px 14px;font-size:14px;color:var(--muted);direction:ltr;justify-content:flex-end}
+
+  /* ===== رسائل ===== */
+  .msg{border-radius:12px;padding:13px 16px;font-size:14.5px;font-weight:700;margin:14px 0 0}
+  .msg-ok{background:var(--ok-bg);border:1px solid var(--ok-line);color:var(--ok)}
+  .msg-err{background:var(--err-bg);border:1px solid var(--err-line);color:var(--err)}
+  .msg-warn{background:var(--warn-bg);border:1px solid var(--warn-line);color:var(--warn)}
+
+  /* ===== لوحة المشرف ===== */
+  .adminbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:18px 0 14px}
+  .badge-live{
+    display:inline-flex;align-items:center;gap:7px;background:var(--ok-bg);color:var(--ok);
+    border:1px solid var(--ok-line);border-radius:999px;padding:5px 14px;font-size:12.5px;font-weight:800;
+  }
+  .badge-live::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--ok);animation:pulse 1.6s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+  .count-chip{background:var(--brand-soft);color:var(--brand);border-radius:999px;padding:5px 16px;font-weight:900;font-size:14px}
+  .adminbar .spacer{flex:1}
+  .searchbox{position:relative}
+  .searchbox input{padding:9px 38px 9px 14px;width:250px;border-radius:11px}
+  .searchbox::before{content:"🔍";position:absolute;inset-inline-start:12px;top:50%;transform:translateY(-50%);font-size:13px;opacity:.6}
+  .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:15px;background:#fff}
+  table{width:100%;border-collapse:collapse;min-width:940px;font-size:13.5px}
+  thead th{
+    background:var(--soft);text-align:right;padding:11px 13px;white-space:nowrap;
+    border-bottom:1px solid var(--line);font-weight:900;color:#3c4a61;font-size:13px;
+  }
+  tbody td{padding:10px 13px;border-bottom:1px solid var(--line);white-space:nowrap;color:#2a3648}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr:hover td{background:#fafcff}
+  .empty-row td{text-align:center;color:var(--muted);padding:28px;font-weight:700}
+  .f-badge{background:var(--brand-soft);color:var(--brand);border-radius:8px;padding:3px 10px;font-weight:800;font-size:12px}
+
+  footer{border-top:1px solid var(--line);background:var(--soft);margin-top:56px}
+  .foot{padding:26px 22px;text-align:center;color:var(--muted);font-size:13.5px;font-weight:600}
+  .foot b{color:var(--ink)}
+
+  .netwarn{max-width:760px;margin:18px auto 0}
+
+  @media (max-width:920px){
+    .cards{grid-template-columns:1fr 1fr}
+    .stats{grid-template-columns:1fr 1fr}
+    .twocol{grid-template-columns:1fr}
+    .hnav{display:none}
+  }
+  @media (max-width:600px){
+    .cards{grid-template-columns:1fr}
+    .grid{grid-template-columns:1fr}
+    .hero{padding:46px 0 22px}
+    .formcard{padding:22px 18px}
+    .searchbox input{width:100%}
+  }
 </style>
 </head>
 <body>
 
-<section id="authScreen">
- <div class="auth-card">
-  <div class="logo">KEO<span>HUB</span></div>
-  <div class="tagline">YOUR COMMUNITY. YOUR GAME. YOUR LEGACY.</div>
-  <div id="loginForm">
-   <h2>Welcome back</h2>
-   <p class="muted">Sign in to enter the community.</p>
-   <input class="field" id="loginEmail" type="email" placeholder="Email address" autocomplete="email">
-   <input class="field" id="loginPassword" type="password" placeholder="Password" autocomplete="current-password">
-<button class="secondary" id="googleLoginBtn" style="width:100%;margin-top:12px">
-  <span style="font-weight:900;margin-right:8px">G</span>
-  Continue with Google
-</button>
+<div class="topline"></div>
 
-   <button class="primary" id="loginBtn">SIGN IN</button>
-   <p class="muted">New here? <span class="link" id="showRegister">Create an account</span></p>
-  </div>
-  <div id="registerForm" class="hidden">
-   <h2>Create account</h2>
-   <p class="muted">Join the KEO HUB community.</p>
-   <input class="field" id="registerName" placeholder="Username" maxlength="24">
-   <input class="field" id="registerEmail" type="email" placeholder="Email address">
-   <input class="field" id="registerPassword" type="password" placeholder="Password (6+ characters)">
-   <button class="primary" id="registerBtn">CREATE ACCOUNT</button>
-   <p class="muted">Already a member? <span class="link" id="showLogin">Sign in</span></p>
-  </div>
-  <div class="error" id="authError"></div>
- </div>
-</section>
-
-<div id="app" class="hidden">
- <aside class="sidebar">
-  <div class="brand"><div class="logo">KEO<span>HUB</span></div><small class="muted">COMMUNITY PLATFORM</small></div>
-  <div class="section-label">MAIN MENU</div>
-  <div class="nav active" data-page="home"><span class="ico">⌂</span> Home</div>
-  <div class="nav" data-page="chat"><span class="ico">◉</span> Community Chat</div>
-  <div class="nav" data-page="quests"><span class="ico">✦</span> Quests</div>
-  <div class="nav" data-page="leaderboard"><span class="ico">♛</span> Leaderboard</div>
-  <div class="nav" data-page="profile"><span class="ico">◈</span> My Profile</div>
-  <div class="nav hidden" id="adminNav" data-page="admin"><span class="ico">⚙</span> Admin Panel</div>
-  <div class="user-mini">
-   <div class="avatar" id="miniAvatar">K</div>
-   <div style="min-width:0"><b id="miniName" style="font-size:12px">User</b><small id="miniLevel">Level 1</small></div>
-  </div>
- </aside>
-
- <main class="main">
-  <header class="topbar">
-   <h3 id="pageTitle">Home</h3>
-   <div class="top-actions"><span class="muted" id="onlineLabel">● Connected</span><button class="secondary" id="logoutBtn">Logout ↗</button></div>
-  </header>
-  <div class="content">
-
-   <section id="page-home">
-    <div class="hero">
-     <div class="eyebrow">WELCOME TO THE NEXT LEVEL</div>
-     <h1>ENTER THE <span style="color:var(--cyan)">HUB.</span></h1>
-     <p>Meet your community, complete quests, earn XP, unlock achievements and climb the leaderboard. Your journey starts here.</p>
+<!-- ===================== الهيدر ===================== -->
+<header>
+  <div class="container head">
+    <div class="brand">
+      <div class="logo-badge">MC</div>
+      <div>
+        <div class="bname">TIAN MC</div>
+        <div class="bsub">Machine Cognition — منصة التعلّم التقني</div>
+      </div>
     </div>
+    <nav class="hnav">
+      <a href="#domains">المجالات</a>
+      <a href="#how">آلية العمل</a>
+      <a href="#start">ابدأ الآن</a>
+    </nav>
+    <div class="haccount hidden" id="accountChip">
+      <div class="avatar" id="accAvatarWrap"><span id="accInitial">م</span></div>
+      <img id="accAvatar" class="avatar hidden" alt="">
+      <div>
+        <div class="acc-name" id="accName">—</div>
+        <div class="acc-mail" id="accMail">—</div>
+      </div>
+      <button class="btn btn-outline btn-sm" id="btnLogout">خروج</button>
+    </div>
+    <button class="btn btn-primary hidden" id="btnLogin" style="margin-inline-start:auto">
+      <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+      الدخول بحساب جوجل
+    </button>
+  </div>
+</header>
+
+<main>
+
+  <!-- ===================== الترحيب ===================== -->
+  <section class="hero">
+    <div class="container">
+      <span class="pill">التسجيل مفتوح الآن — انطلاق المنصة 1 ديسمبر</span>
+      <h1>أهلاً بك في <span class="hl">المنصة</span>!</h1>
+      <p class="lead">
+        منصة <b>TIAN MC</b> (Machine Cognition) مبادرة تعليمية متخصصة تأهلك في أحد أربعة مسارات تقنية:
+        تطوير المواقع، تطوير البرامج، تطوير الألعاب، والأمن السيبراني — بحصص أونلاين أسبوعية
+        ودروس مسجلة وواجبات وامتحانات إلزامية بعد كل حصة.
+      </p>
+      <p class="lead" style="font-size:15px">
+        اعرف تفاصيل كل مجال وآلية الدراسة، ثم سجّل الدخول بحساب جوجل وأكمل بياناتك في دقيقة واحدة.
+      </p>
+      <div style="margin-top:22px">
+        <a href="#start" class="btn btn-primary" style="padding:13px 34px;font-size:16.5px">ابدأ التسجيل الآن</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== شريط المعلومات ===================== -->
+  <div class="container">
     <div class="stats">
-     <div class="stat"><small>YOUR XP</small><strong id="homeXP">0</strong></div>
-     <div class="stat"><small>YOUR LEVEL</small><strong id="homeLevel">1</strong></div>
-     <div class="stat"><small>QUESTS COMPLETED</small><strong id="homeQuests">0</strong></div>
-     <div class="stat"><small>YOUR RANK</small><strong id="homeRank">—</strong></div>
+      <div class="stat"><div class="sv">1 ديسمبر</div><div class="sl">موعد انطلاق المنصة</div></div>
+      <div class="stat"><div class="sv">جمعة أو سبت</div><div class="sl">الحصة الأسبوعية حسب اختيارك</div></div>
+      <div class="stat"><div class="sv">4 مسارات</div><div class="sl">مجالات تعليمية متخصصة</div></div>
+      <div class="stat"><div class="sv">امتحان إلزامي</div><div class="sl">بعد كل حصة دون استثناء</div></div>
     </div>
-    <div class="grid">
-     <div class="card"><h3>⚡ Latest Quests</h3><div id="homeQuestList" class="muted">Loading quests...</div></div>
-     <div class="card"><h3>♛ Community Leaderboard</h3><div id="homeLeaders" class="muted">Loading...</div></div>
-    </div>
-   </section>
-
-   <section id="page-chat" class="hidden">
-    <div class="chat-layout">
-     <div class="channel-list">
-      <div class="section-label">TEXT CHANNELS</div>
-      <div class="channel active" data-channel="general"># general</div>
-      <div class="channel" data-channel="gaming"># gaming</div>
-      <div class="channel" data-channel="introductions"># introductions</div>
-      <div class="channel" data-channel="memes"># memes</div>
-      <div class="channel" data-channel="help"># help</div>
-     </div>
-     <div class="chat-box">
-      <div class="chat-head"><b id="channelTitle"># general</b><span class="muted"> · Live community chat</span></div>
-      <div class="messages" id="messages"><div class="empty">Loading messages...</div></div>
-      <form class="chat-form" id="chatForm">
-       <input class="field" id="chatInput" maxlength="1000" placeholder="Message #general..." autocomplete="off">
-       <button class="primary">SEND</button>
-      </form>
-     </div>
-    </div>
-   </section>
-
-   <section id="page-quests" class="hidden">
-    <div class="row"><div><h2>Community Quests</h2><p class="muted">Complete challenges and submit your progress.</p></div><span class="pill">QUEST CENTER</span></div>
-    <div id="questList">Loading quests...</div>
-   </section>
-
-   <section id="page-leaderboard" class="hidden">
-    <h2>Leaderboard</h2><p class="muted">The community's top players.</p>
-    <div class="card"><table class="table"><thead><tr><th>RANK</th><th>PLAYER</th><th>LEVEL</th><th>XP</th></tr></thead><tbody id="leaderTable"></tbody></table></div>
-   </section>
-
-   <section id="page-profile" class="hidden">
-    <h2>My Profile</h2>
-    <div class="profile-box">
-     <div class="avatar big-avatar" id="profileAvatar">K</div>
-     <div><h2 id="profileName">Player</h2><div class="muted" id="profileEmail"></div><span class="pill" id="profileLevel">LEVEL 1</span></div>
-    </div>
-    <div class="card" style="margin-top:15px">
-     <h3>Edit Profile</h3>
-     <label class="muted">Display name</label><input class="field" id="editName" maxlength="24">
-     <label class="muted">About me</label><textarea class="field" id="editBio" rows="3" maxlength="180" placeholder="Tell the community about yourself"></textarea>
-     <button class="primary" id="saveProfile" style="max-width:220px">SAVE PROFILE</button>
-    </div>
-   </section>
-
-   <section id="page-admin" class="hidden">
-    <h2>Admin Control Center</h2><p class="muted">Create and manage community quests.</p>
-    <div class="card">
-     <h3>＋ Create New Quest</h3>
-     <input class="field" id="newQuestTitle" placeholder="Quest title" maxlength="70">
-     <textarea class="field" id="newQuestDesc" rows="3" placeholder="Quest description" maxlength="400"></textarea>
-     <input class="field" id="newQuestReward" type="number" min="0" max="10000" placeholder="XP reward (display only)">
-     <button class="primary" id="createQuest" style="max-width:230px">PUBLISH QUEST</button>
-    </div>
-    <div class="card" style="margin-top:15px"><h3>Quest Submissions</h3><div id="adminSubmissions" class="muted">Submissions will appear here.</div></div>
-   </section>
-
   </div>
- </main>
-</div>
-<div id="toast" class="toast hidden"></div>
 
-<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-database-compat.js"></script>
-<script>
-const firebaseConfig = {
- apiKey: "AIzaSyC0lwVRTBPA3yxnZ3wuqvyfQJbJP-AVNJo",
- authDomain: "kareem-8ed77.firebaseapp.com",
- databaseURL: "https://kareem-8ed77-default-rtdb.firebaseio.com",
- projectId: "kareem-8ed77",
- storageBucket: "kareem-8ed77.firebasestorage.app",
- messagingSenderId: "557227389584",
- appId: "1:557227389584:web:f8ffa9c5913ef54c919e15",
- measurementId: "G-919VM45PXW"
-};
+  <!-- ===================== المجالات ===================== -->
+  <section class="section" id="domains">
+    <div class="container">
+      <div class="kicker">المسارات التعليمية</div>
+      <h2>أربعة مجالات — اختر ما يناسبك</h2>
+      <p class="sub">كل مجال مسار متكامل يبدأ من الأساسيات حتى مستوى بناء مشاريع حقيقية، بإشراف مباشر ومتابعة أسبوعية.</p>
+      <div class="cards">
+        <div class="card">
+          <div class="icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </div>
+          <h3>تطوير المواقع</h3>
+          <p>بناء مواقع كاملة من التصميم حتى النشر باستخدام HTML وCSS وJavaScript وقواعد البيانات.</p>
+          <span class="en">Web Development</span>
+        </div>
+        <div class="card">
+          <div class="icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/></svg>
+          </div>
+          <h3>تطوير البرامج</h3>
+          <p>أساسيات البرمجة ومنطق حل المشكلات، وبناء تطبيقات وأدوات برمجية تعمل فعليًا خطوة بخطوة.</p>
+          <span class="en">Software Development</span>
+        </div>
+        <div class="card">
+          <div class="icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" x2="10" y1="11" y2="11"/><line x1="8" x2="8" y1="9" y2="13"/><line x1="15" x2="15.01" y1="12" y2="12"/><line x1="18" x2="18.01" y1="10" y2="10"/><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"/></svg>
+          </div>
+          <h3>تطوير الألعاب</h3>
+          <p>تصميم وبناء الألعاب من الفكرة والتصميم حتى لعبة كاملة قابلة للتشغيل والمشاركة.</p>
+          <span class="en">Game Development</span>
+        </div>
+        <div class="card">
+          <div class="icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+          </div>
+          <h3>الأمن السيبراني</h3>
+          <p>أساسيات حماية الأنظمة والشبكات وخصوصية البيانات، ومهارات الأمن الرقمي العملية.</p>
+          <span class="en">Cybersecurity</span>
+        </div>
+      </div>
+    </div>
+  </section>
 
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.database();
+  <!-- ===================== آلية العمل ===================== -->
+  <section class="section" id="how">
+    <div class="container">
+      <div class="kicker">آلية الدراسة</div>
+      <h2>كيف تعمل المنصة؟</h2>
+      <p class="sub">نظام واضح ومنضبط يضمن الاستفادة القصوى لكل متدرب — من التسجيل حتى الجوائز.</p>
+      <ol class="steps">
+        <li>
+          <div><b>سجّل واختر مجالك ويومك</b><span>تسجّل في مجال واحد من المجالات الأربعة، وتختار موعد الحصة الأسبوعية: الجمعة أو السبت — حسب راحتك.</span></div>
+        </li>
+        <li>
+          <div><b>حصة أونلاين أسبوعية</b><span>محاضرة مباشرة عبر الإنترنت في الموعد الذي اخترته، مع شرح عملي وتطبيقات مباشرة.</span></div>
+        </li>
+        <li>
+          <div><b>درس مسجّل + شيت واجبات إلزامي</b><span>بعد كل حصة يُنزل درس مسجّل يجب حلّه مع شيت الواجبات — إجادة الواجب شرط للاستمرار.</span></div>
+        </li>
+        <li>
+          <div><b>امتحان بعد كل حصة</b><span>كل حصة يليها امتحان إلزامي لا يمكن تجاوزه، يقيس مدى استيعابك قبل الانتقال للدرس التالي.</span></div>
+        </li>
+        <li>
+          <div><b>الالتزام الكامل</b><span>ممنوع التداخل في حصص المتدربين الآخرين أو إزعاجهم بأي شكل — الانتظام والانضباط شرط أساسي في المنصة.</span></div>
+        </li>
+        <li>
+          <div><b>جوائز رسمية للمتقدمين</b><span>المتدربون المتقدمون يحصلون على جوائز رسمية معتمدة من المنصة تقديرًا لتميزهم.</span></div>
+        </li>
+      </ol>
 
-const $ = id => document.getElementById(id);
-let currentUser = null;
-let myProfile = {};
-let currentChannel = "general";
-let isAdmin = false;
-let chatRef = null;
-let profileRef = null;
-let questsRef = null;
-let profilesRef = null;
-let submissionsRef = null;
-let cachedQuests = {};
-let cachedProfiles = {};
-let completedCount = 0;
+      <div class="twocol">
+        <div class="notice">
+          <h3>⚠ نظام الممنوعات</h3>
+          <p>ممنوع دخول حصص ليست لك، وممنوع التداخل أو الإزعاج مع بقية المتدربين. أي تجاوز لنظام المنصة يعرّض العضوية للإلغاء نهائيًا.</p>
+        </div>
+        <div class="reward">
+          <h3>🏅 الجوائز الرسمية</h3>
+          <p>في نهاية كل مرحلة يحصل المتقدمون على جوائز رسمية معتمدة، إلى جانب شهادات تُبرز مستوى تميزهم داخل المسار.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-function toast(message){
- const el=$("toast");el.textContent=message;el.classList.remove("hidden");
- setTimeout(()=>el.classList.add("hidden"),3000);
-}
-function showError(message){$("authError").textContent=message;}
-function safeText(value){return String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
-function levelFromXP(xp){return Math.floor(Math.sqrt(Math.max(0,xp)/100))+1;}
-function stopListeners(){
- if(chatRef)chatRef.off();
- if(profileRef)profileRef.off();
- if(questsRef)questsRef.off();
- if(profilesRef)profilesRef.off();
- if(submissionsRef)submissionsRef.off();
- chatRef=profileRef=questsRef=profilesRef=submissionsRef=null;
-}
+  <!-- ===================== الدخول + التسجيل + لوحة المشرف ===================== -->
+  <div id="start">
+    <section class="section" id="authSection">
+      <div class="container">
+        <div class="kicker" style="text-align:center">الخطوة الأولى</div>
+        <h2 style="text-align:center">تسجيل الدخول</h2>
+        <p class="sub" style="text-align:center;margin:0 auto 30px">الدخول موحّد للجميع بحساب جوجل — يفتح لك نموذج التسجيل مباشرة، ولا يحتاج أي بيانات إضافية.</p>
+        <div class="authcard">
+          <svg width="46" height="46" viewBox="0 0 48 48" aria-hidden="true" style="margin-bottom:14px"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+          <h2>ابدأ بحساب جوجل</h2>
+          <p>اضغط الزر بالأسفل وسجّل الدخول بحساب جوجل الخاص بك.<br>بياناتك تُستخدم فقط لإدارة التدريب والتواصل مع أولياء الأمور.</p>
+          <button class="btn btn-google" id="btnLoginCard" style="margin-top:14px">
+            <svg width="20" height="20" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+            متابعة بحساب جوجل
+          </button>
+          <div id="loginErr" class="msg msg-err login-err hidden"></div>
+          <p class="fine">بالدخول أنت توافق على نظام المنصة: الالتزام بالحصص، حلّ الواجبات المسجلة، وأداء الامتحانات الإلزامية بعد كل حصة.</p>
+        </div>
+        <div id="netWarn" class="msg msg-warn netwarn hidden">
+          تعذّر تحميل خدمات الاتصال (Firebase) — تأكد من الاتصال بالإنترنت ثم أعد تحميل الصفحة.
+        </div>
+      </div>
+    </section>
 
-$("showRegister").onclick=()=>{$("loginForm").classList.add("hidden");$("registerForm").classList.remove("hidden");showError("");};
-$("showLogin").onclick=()=>{$("registerForm").classList.add("hidden");$("loginForm").classList.remove("hidden");showError("");};
+    <!-- ===== نموذج التسجيل ===== -->
+    <section class="section hidden" id="registerSection">
+      <div class="container">
+        <div class="kicker" style="text-align:center">نموذج التسجيل</div>
+        <h2 style="text-align:center">أكمل بيانات تسجيلك</h2>
+        <p class="sub" style="text-align:center;margin:0 auto 30px">املأ البيانات التالية بدقة — تُستخدم للتواصل معك ومع ولي الأمر ومتابعة حضورك وامتحاناتك.</p>
 
-$("loginBtn").onclick=async()=>{
- showError("");
- try{
-  await auth.signInWithEmailAndPassword($("loginEmail").value.trim(),$("loginPassword").value);
- }catch(e){showError(e.message);}
-};
+        <div class="formcard">
+          <div id="alreadyBox" class="msg msg-ok hidden" style="margin:0 0 20px"></div>
 
-$("registerBtn").onclick=async()=>{
- showError("");
- const name=$("registerName").value.trim();
- const email=$("registerEmail").value.trim();
- const password=$("registerPassword").value;
- if(name.length<2)return showError("Username must be at least 2 characters.");
- if(password.length<6)return showError("Password must be at least 6 characters.");
- try{
-  const result=await auth.createUserWithEmailAndPassword(email,password);
-  await db.ref("profiles/"+result.user.uid).set({
-   displayName:name,bio:"",xp:0,level:1,createdAt:firebase.database.ServerValue.TIMESTAMP
-  });
- }catch(e){showError(e.message);}
-};
+          <form id="formReg" novalidate>
+            <div class="grid">
+              <div class="field full">
+                <label>البريد الإلكتروني <span class="req">*</span></label>
+                <div class="locked-mail">
+                  <span>🔒</span>
+                  <span id="regEmail">—</span>
+                </div>
+                <span class="hint">مأخوذ من حساب جوجل وتأكيده تلقائي — لا يمكن تغييره من هنا.</span>
+              </div>
 
-$("logoutBtn").onclick=()=>auth.signOut();
+              <div class="field full">
+                <label>المجال <span class="req">*</span></label>
+                <select id="selField">
+                  <option value="" disabled selected>— اختر مجال التعلم —</option>
+                  <option value="تطوير المواقع">تطوير المواقع (Web Development)</option>
+                  <option value="تطوير البرامج">تطوير البرامج (Software Development)</option>
+                  <option value="تطوير الألعاب">تطوير الألعاب (Game Development)</option>
+                  <option value="الأمن السيبراني">الأمن السيبراني (Cybersecurity)</option>
+                </select>
+                <span class="hint">تسجّل في مجال واحد فقط — ويمكنك تعديله لاحقًا قبل بدء الدور.</span>
+              </div>
 
-function navigate(page){
- document.querySelectorAll("[id^='page-']").forEach(el=>el.classList.add("hidden"));
- $("page-"+page).classList.remove("hidden");
- document.querySelectorAll(".nav").forEach(el=>el.classList.toggle("active",el.dataset.page===page));
- $("pageTitle").textContent=page==="admin"?"Admin Control Center":page.charAt(0).toUpperCase()+page.slice(1);
- if(page==="chat")loadChat(currentChannel);
- if(page==="leaderboard")renderLeaderboard();
- if(page==="quests")renderQuests();
- if(page==="admin")loadSubmissions();
-}
-document.querySelectorAll(".nav").forEach(el=>el.onclick=()=>navigate(el.dataset.page));
+              <div class="field full">
+                <label>اليوم الأسبوعي المفضل <span class="req">*</span></label>
+                <div class="day-pills">
+                  <label class="pill-r"><input type="radio" name="day" value="الجمعة"><span>الجمعة</span></label>
+                  <label class="pill-r"><input type="radio" name="day" value="السبت"><span>السبت</span></label>
+                </div>
+                <span class="hint">ستحضر الحصة الأونلاين الأسبوعية في اليوم الذي تختاره.</span>
+              </div>
 
-auth.onAuthStateChanged(async user=>{
- stopListeners();
- currentUser=user;
- if(!user){
-  $("authScreen").classList.remove("hidden");$("app").classList.add("hidden");return;
- }
- $("authScreen").classList.add("hidden");$("app").classList.remove("hidden");
- try{
-  const token=await user.getIdTokenResult(true);
-  isAdmin=token.claims.admin===true;
-  $("adminNav").classList.toggle("hidden",!isAdmin);
-  await ensureProfile(user);
-  startAppListeners();
- }catch(e){toast("Could not load account: "+e.message);}
-});
+              <div class="field">
+                <label>رقم الطالب <span class="req">*</span></label>
+                <input id="inpStudent" type="tel" inputmode="tel" placeholder="مثال: 01012345678">
+                <span class="hint">رقم هاتف الطالب للتواصل المباشر.</span>
+              </div>
 
-async function ensureProfile(user){
- const ref=db.ref("profiles/"+user.uid);
- const snap=await ref.once("value");
- if(!snap.exists()){
-  await ref.set({displayName:user.displayName||user.email.split("@")[0],bio:"",xp:0,level:1,createdAt:firebase.database.ServerValue.TIMESTAMP});
- }
-}
+              <div class="field">
+                <label>رقم الوالد أو الوالدة <span class="req">*</span></label>
+                <input id="inpParent" type="tel" inputmode="tel" placeholder="مثال: 01098765432">
+                <span class="hint">يُستخدم للتواصل مع ولي الأمر بخصوص المتابعة والالتزام.</span>
+              </div>
 
-function startAppListeners(){
- profileRef=db.ref("profiles/"+currentUser.uid);
- profileRef.on("value",snap=>{
-  myProfile=snap.val()||{};
-  updateProfileUI();
- });
- questsRef=db.ref("quests").limitToLast(100);
- questsRef.on("value",snap=>{
-  cachedQuests=snap.val()||{};
-  renderQuests();renderHomeQuests();
- });
- profilesRef=db.ref("profiles").limitToLast(200);
- profilesRef.on("value",snap=>{
-  cachedProfiles=snap.val()||{};
-  renderLeaderboard();renderHomeLeaders();
- });
- submissionsRef=db.ref("submissions/"+currentUser.uid);
- submissionsRef.on("value",snap=>{
-  completedCount=snap.numChildren();
-  $("homeQuests").textContent=completedCount;
- });
- navigate("home");
-}
+              <div class="field">
+                <label>الجنسية <span class="req">*</span></label>
+                <input id="inpNationality" type="text" placeholder="مثال: مصري">
+              </div>
 
-function updateProfileUI(){
- const name=myProfile.displayName||"Player";
- const xp=Number(myProfile.xp)||0;
- const level=Number(myProfile.level)||levelFromXP(xp);
- $("miniName").textContent=name;$("miniAvatar").textContent=name[0].toUpperCase();
- $("miniLevel").textContent="Level "+level;
- $("homeXP").textContent=xp;$("homeLevel").textContent=level;
- $("profileName").textContent=name;$("profileEmail").textContent=currentUser.email;
- $("profileAvatar").textContent=name[0].toUpperCase();$("profileLevel").textContent="LEVEL "+level;
- $("editName").value=name;$("editBio").value=myProfile.bio||"";
-}
+              <div class="field">
+                <label>المدرسة <span class="req">*</span></label>
+                <input id="inpSchool" type="text" placeholder="اكتب اسم مدرستك الحالية">
+              </div>
+            </div>
 
-$("saveProfile").onclick=async()=>{
- const name=$("editName").value.trim();
- const bio=$("editBio").value.trim();
- if(name.length<2)return toast("Name must contain at least 2 characters.");
- try{
-  await db.ref("profiles/"+currentUser.uid).update({displayName:name,bio});
-  toast("Profile updated!");
- }catch(e){toast(e.message);}
-};
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary" id="btnSave" style="padding:12px 34px;font-size:16px">حفظ التسجيل</button>
+              <span class="hint">بالضغط على «حفظ التسجيل» أنت تتعهد بالالتزام بنظام المنصة وممنوعاته.</span>
+            </div>
 
-document.querySelectorAll(".channel").forEach(el=>el.onclick=()=>{
- document.querySelectorAll(".channel").forEach(x=>x.classList.remove("active"));
- el.classList.add("active");loadChat(el.dataset.channel);
-});
+            <div id="msgOk" class="msg msg-ok hidden"></div>
+            <div id="msgErr" class="msg msg-err hidden"></div>
+          </form>
+        </div>
+      </div>
+    </section>
 
-function loadChat(channel){
- currentChannel=channel;
- $("channelTitle").textContent="# "+channel;
- $("chatInput").placeholder="Message #"+channel+"...";
- if(chatRef)chatRef.off();
- chatRef=db.ref("chat/"+channel).limitToLast(100);
- chatRef.on("value",snap=>{
-  const messages=snap.val()||{};
-  const list=Object.entries(messages).sort((a,b)=>(a[1].createdAt||0)-(b[1].createdAt||0));
-  $("messages").innerHTML=list.length?list.map(([id,m])=>`
-   <div class="message">
-    <b>${safeText(m.displayName||"Player")}</b>
-    <p>${safeText(m.text)}</p>
-    <time>${m.createdAt?new Date(m.createdAt).toLocaleString():"Just now"}</time>
-   </div>`).join(""):'<div class="empty">No messages yet. Start the conversation!</div>';
-  $("messages").scrollTop=$("messages").scrollHeight;
- });
-}
+    <!-- ===== لوحة المشرف (تظهر تلقائيًا لبريد المشرف) ===== -->
+    <section class="section hidden" id="adminSection">
+      <div class="container">
+        <div class="kicker">إدارة المنصة</div>
+        <h2>لوحة تسجيلات الطلاب</h2>
+        <p class="sub">جميع التسجيلات المحفوظة في قاعدة البيانات — تُحدَّث تلقائيًا عند أي تسجيل جديد.</p>
 
-$("chatForm").onsubmit=async e=>{
- e.preventDefault();
- const text=$("chatInput").value.trim();
- if(!text)return;
- if(text.length>1000)return toast("Message is too long.");
- $("chatInput").value="";
- try{
-  await db.ref("chat/"+currentChannel).push({
-   uid:currentUser.uid,displayName:myProfile.displayName||"Player",
-   text,createdAt:firebase.database.ServerValue.TIMESTAMP
-  });
- }catch(e){toast("Message failed: "+e.message);$("chatInput").value=text;}
-};
+        <div class="adminbar">
+          <span class="badge-live">تحديث مباشر</span>
+          <span class="count-chip">العدد: <span id="adminCount">0</span></span>
+          <span class="spacer"></span>
+          <div class="searchbox"><input id="adminSearch" type="search" placeholder="بحث بالاسم أو البريد أو المجال…"></div>
+          <button class="btn btn-outline btn-sm" id="btnCsv">تصدير CSV</button>
+        </div>
 
-function renderQuests(){
- const entries=Object.entries(cachedQuests).filter(([,q])=>q&&q.active!==false).reverse();
- const html=entries.length?entries.map(([id,q])=>`
-  <div class="quest">
-   <div class="row"><h4>${safeText(q.title)}</h4><span class="pill">${Number(q.reward)||0} XP</span></div>
-   <p>${safeText(q.description)}</p>
-   <button class="secondary" onclick="submitQuest('${safeText(id)}')">SUBMIT COMPLETION</button>
-  </div>`).join(""):'<div class="empty">No quests published yet.</div>';
- $("questList").innerHTML=html;
-}
-function renderHomeQuests(){
- const entries=Object.entries(cachedQuests).filter(([,q])=>q&&q.active!==false).slice(-3).reverse();
- $("homeQuestList").innerHTML=entries.length?entries.map(([,q])=>`<div class="quest"><h4>${safeText(q.title)}</h4><p>${safeText(q.description)}</p></div>`).join(""):"No quests available.";
-}
-window.submitQuest=async id=>{
- if(!cachedQuests[id])return toast("Quest not found.");
- try{
-  await db.ref("submissions/"+currentUser.uid+"/"+id).set({
-   questId:id,questTitle:cachedQuests[id].title||"Quest",
-   uid:currentUser.uid,status:"pending",
-   submittedAt:firebase.database.ServerValue.TIMESTAMP
-  });
-  toast("Completion submitted for review!");
- }catch(e){toast("Could not submit: "+e.message);}
-};
+        <div class="tablewrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>الاسم</th>
+                <th>البريد الإلكتروني</th>
+                <th>المجال</th>
+                <th>اليوم</th>
+                <th>رقم الطالب</th>
+                <th>رقم الوالد/الوالدة</th>
+                <th>الجنسية</th>
+                <th>المدرسة</th>
+                <th>تاريخ التسجيل</th>
+              </tr>
+            </thead>
+            <tbody id="adminTableBody">
+              <tr class="empty-row"><td colspan="10">لا توجد تسجيلات بعد.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div id="adminMsg" class="msg msg-err hidden" style="margin-top:14px"></div>
+      </div>
+    </section>
+  </div>
 
-function renderLeaderboard(){
- const entries=Object.entries(cachedProfiles).sort((a,b)=>(Number(b[1].xp)||0)-(Number(a[1].xp)||0)).slice(0,50);
- $("leaderTable").innerHTML=entries.length?entries.map(([uid,p],i)=>`
-  <tr><td>#${i+1}</td><td>${safeText(p.displayName||"Player")}${uid===currentUser.uid?' <span class="pill">YOU</span>':''}</td>
-  <td>${Number(p.level)||levelFromXP(Number(p.xp)||0)}</td><td>${Number(p.xp)||0}</td></tr>`).join(""):'<tr><td colspan="4">No players yet.</td></tr>';
- const myRank=entries.findIndex(([uid])=>uid===currentUser.uid);
- $("homeRank").textContent=myRank>=0?"#"+(myRank+1):"—";
-}
-function renderHomeLeaders(){
- const entries=Object.values(cachedProfiles).sort((a,b)=>(Number(b.xp)||0)-(Number(a.xp)||0)).slice(0,5);
- $("homeLeaders").innerHTML=entries.length?entries.map((p,i)=>`
-  <div class="row" style="padding:9px 0;border-bottom:1px solid var(--line)">
-   <span>${i+1}. ${safeText(p.displayName||"Player")}</span><b>${Number(p.xp)||0} XP</b>
-  </div>`).join(""):"No players yet.";
-}
+</main>
 
-$("createQuest").onclick=async()=>{
- if(!isAdmin)return toast("Admin permission required.");
- const title=$("newQuestTitle").value.trim();
- const description=$("newQuestDesc").value.trim();
- const reward=Number($("newQuestReward").value)||0;
- if(title.length<3||!description)return toast("Enter a title and description.");
- if(reward<0||reward>10000)return toast("Reward must be between 0 and 10000.");
- try{
-  await db.ref("quests").push({
-   title,description,reward,active:true,
-   createdBy:currentUser.uid,
-   createdAt:firebase.database.ServerValue.TIMESTAMP
-  });
-  $("newQuestTitle").value="";$("newQuestDesc").value="";$("newQuestReward").value="";
-  toast("Quest published!");
- }catch(e){toast("Could not publish: "+e.message);}
-};
+<footer>
+  <div class="foot">
+    <div><b>TIAN MC</b> — Machine Cognition · منصة التعلّم التقني</div>
+    <div>التسجيل عبر <span dir="ltr">www.tianmc.online</span> · جميع الحقوق محفوظة</div>
+  </div>
+</footer>
 
-async function loadSubmissions(){
- if(!isAdmin)return;
- $("adminSubmissions").textContent="Loading...";
- try{
-  const snap=await db.ref("submissions").limitToLast(100).once("value");
-  const data=snap.val()||{};
-  const rows=[];
-  Object.entries(data).forEach(([uid,items])=>{
-   Object.entries(items||{}).forEach(([id,s])=>{
-    rows.push(`<div class="quest"><b>${safeText(s.questTitle||id)}</b>
-     <p>Player: ${safeText(uid)} · Status: ${safeText(s.status||"pending")}</p></div>`);
-   });
-  });
-  $("adminSubmissions").innerHTML=rows.length?rows.reverse().join(""):"No submissions yet.";
- }catch(e){$("adminSubmissions").textContent="Unable to load submissions: "+e.message;}
-};
-  
-const googleProvider = new firebase.auth.GoogleAuthProvider();
+<!--
+  ملاحظات التشغيل (خاص بصاحب المنصة):
+  1) Firebase Console → Authentication → Sign-in method → فعِّل Google.
+  2) Authentication → Settings → Authorized domains → أضف نطاق الموقع (مثل tianmc.online و www.tianmc.online) و localhost للتجربة.
+     (الدخول بجوجل لا يعمل من فتح الملف مباشرة file:// — يجب فتحه من نطاق مُصرَّح به.)
+  3) Firestore Database → أنشئ القاعدة ثم ضع قواعد الأمان التالية:
 
-$("googleLoginBtn").onclick = async () => {
-  showError("");
-
-  try {
-    googleProvider.setCustomParameters({
-      prompt: "select_account"
-    });
-
-    await auth.signInWithPopup(googleProvider);
-
-    toast("Google login successful!");
-  } catch (error) {
-    if (error.code === "auth/popup-closed-by-user") return;
-
-    if (error.code === "auth/popup-blocked") {
-      try {
-        await auth.signInWithRedirect(googleProvider);
-      } catch (redirectError) {
-        showError(redirectError.message);
+  rules_version = '2';
+  service cloud.firestore {
+    match /databases/{database}/documents {
+      match /registrations/{regId} {
+        allow get:    if request.auth != null && request.auth.uid == regId;
+        allow list:   if request.auth != null && request.auth.token.email == 'kareemwael0213@gmail.com';
+        allow create: if request.auth != null && request.auth.uid == regId
+                      && request.resource.data.uid == regId;
+        allow update: if request.auth != null && request.auth.uid == regId
+                      && request.resource.data.uid == regId;
+        allow delete: if request.auth != null && request.auth.token.email == 'kareemwael0213@gmail.com';
       }
+    }
+  }
+-->
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/13.3.0/firebase-app.js";
+  import { getAnalytics, isSupported as analyticsIsSupported } from "https://www.gstatic.com/firebasejs/13.3.0/firebase-analytics.js";
+  import {
+    getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut
+  } from "https://www.gstatic.com/firebasejs/13.3.0/firebase-auth.js";
+  import {
+    getFirestore, collection, doc, getDoc, setDoc, query, orderBy, onSnapshot, serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/13.3.0/firebase-firestore.js";
+
+  // ===== بيانات قاعدة البيانات (Firebase) =====
+  const firebaseConfig = {
+    apiKey: "AIzaSyBuIEnEa_cYWpkBG9bQ8xcgfG_eF4mTT8U",
+    authDomain: "tianmc-b2400.firebaseapp.com",
+    projectId: "tianmc-b2400",
+    storageBucket: "tianmc-b2400.firebasestorage.app",
+    messagingSenderId: "231536890129",
+    appId: "1:231536890129:web:5211cead72e6cd7c14bcb0",
+    measurementId: "G-GFVH8T3XYF"
+  };
+
+  const ADMIN_EMAIL = "kareemwael0213@gmail.com";
+
+  const app = initializeApp(firebaseConfig);
+  analyticsIsSupported().then(ok => { if (ok) { try { getAnalytics(app); } catch (e) {} } }).catch(() => {});
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const provider = new GoogleAuthProvider();
+  provider.setCustomParameters({ prompt: "select_account" });
+
+  window.__fbReady = true;
+  const netWarn = document.getElementById("netWarn");
+  if (netWarn) netWarn.classList.add("hidden");
+
+  const $ = (id) => document.getElementById(id);
+
+  // ===== عناصر الصفحة =====
+  const btnLogin      = $("btnLogin");
+  const btnLoginCard  = $("btnLoginCard");
+  const btnLogout     = $("btnLogout");
+  const loginErr      = $("loginErr");
+  const accountChip   = $("accountChip");
+  const accName       = $("accName");
+  const accMail       = $("accMail");
+  const accInitial    = $("accInitial");
+  const accAvatar     = $("accAvatar");
+  const authSection   = $("authSection");
+  const registerSec   = $("registerSection");
+  const adminSec      = $("adminSection");
+  const alreadyBox    = $("alreadyBox");
+  const regEmail      = $("regEmail");
+  const selField      = $("selField");
+  const inpStudent    = $("inpStudent");
+  const inpParent     = $("inpParent");
+  const inpNationality= $("inpNationality");
+  const inpSchool     = $("inpSchool");
+  const formReg       = $("formReg");
+  const btnSave       = $("btnSave");
+  const msgOk         = $("msgOk");
+  const msgErr        = $("msgErr");
+  const adminCount    = $("adminCount");
+  const adminSearch   = $("adminSearch");
+  const btnCsv        = $("btnCsv");
+  const adminBody     = $("adminTableBody");
+  const adminMsg      = $("adminMsg");
+
+  let currentUser = null;
+  let existing = null;      // تسجيل الطالب المحفوظ (إن وجد)
+  let allRegs = [];         // تسجيلات لوحة المشرف
+  let unsubAdmin = null;    // إلغاء الاشتراك الحي
+
+  // ===== الدخول بحساب جوجل =====
+  async function doLogin() {
+    loginErr.classList.add("hidden");
+    try {
+      await signInWithPopup(auth, provider);
+    } catch (e) {
+      loginErr.textContent = mapAuthError(e);
+      loginErr.classList.remove("hidden");
+    }
+  }
+  function mapAuthError(e) {
+    const c = (e && e.code) || "";
+    if (c.includes("popup-closed") || c.includes("cancelled-popup"))
+      return "أُغلقت نافذة الدخول قبل إكمال العملية — حاول مرة أخرى.";
+    if (c.includes("popup-blocked"))
+      return "المتصفح منع النافذة المنبثقة — اسمح بالنوافذ المنبثقة لهذا الموقع ثم أعد المحاولة.";
+    if (c.includes("unauthorized-domain"))
+      return "نطاق الموقع غير مُصرَّح به في إعدادات Firebase — أضِف النطاق إلى Authentication → Authorized Domains ثم أعد المحاولة.";
+    if (c.includes("operation-not-allowed") || c.includes("configuration-not-found"))
+      return "طريقة الدخول بحساب جوجل غير مُفعَّلة — فعِّلها من Firebase Console → Authentication → Sign-in method.";
+    if (c.includes("network"))
+      return "تعذّر الاتصال بالشبكة — تحقق من اتصالك بالإنترنت ثم أعد المحاولة.";
+    return "تعذّر تسجيل الدخول — حاول مرة أخرى." + (c ? " (" + c + ")" : "");
+  }
+  btnLogin.addEventListener("click", doLogin);
+  btnLoginCard.addEventListener("click", doLogin);
+  btnLogout.addEventListener("click", () => signOut(auth).catch(() => {}));
+
+  // ===== تغيّر حالة الدخول =====
+  onAuthStateChanged(auth, async (user) => {
+    currentUser = user;
+    loginErr.classList.add("hidden");
+
+    if (!user) {
+      existing = null;
+      stopAdmin();
+      accountChip.classList.add("hidden");
+      btnLogin.classList.remove("hidden");
+      authSection.classList.remove("hidden");
+      registerSec.classList.add("hidden");
+      adminSec.classList.add("hidden");
       return;
     }
 
-    showError(error.message);
+    const isAdmin = (user.email || "").toLowerCase() === ADMIN_EMAIL;
+
+    // شريط الحساب في الأعلى
+    accName.textContent = user.displayName || "متدرب";
+    accMail.textContent = user.email || "";
+    accInitial.textContent = (user.displayName || "م").trim().charAt(0);
+    if (user.photoURL) {
+      accAvatar.src = user.photoURL;
+      accAvatar.classList.remove("hidden");
+      $("accAvatarWrap").classList.add("hidden");
+    } else {
+      accAvatar.classList.add("hidden");
+      $("accAvatarWrap").classList.remove("hidden");
+    }
+    accountChip.classList.remove("hidden");
+    btnLogin.classList.add("hidden");
+
+    // البريد من جوجل (مؤكد تلقائيًا) — لا حاجة لحقل تأكيد
+    regEmail.textContent = user.email || "";
+
+    // هل الطالب مسجّل بالفعل؟
+    existing = null;
+    try {
+      const snap = await getDoc(doc(db, "registrations", user.uid));
+      if (snap.exists()) existing = snap.data();
+    } catch (e) { /* قواعد الأمان قد تمنع — نتجاهل */ }
+
+    authSection.classList.add("hidden");
+    registerSec.classList.remove("hidden");
+
+    if (existing) {
+      prefillForm(existing);
+      alreadyBox.textContent = "✅ أنت مسجّل بالفعل في مجال «" + (existing.field || "—") +
+        "» — يوم «" + (existing.day || "—") + "». يمكنك تحديث بياناتك من النموذج بالأسفل ثم الضغط على «تحديث البيانات».";
+      alreadyBox.classList.remove("hidden");
+      btnSave.textContent = "تحديث البيانات";
+      msgOk.classList.add("hidden");
+    } else {
+      resetForm();
+      alreadyBox.classList.add("hidden");
+      btnSave.textContent = "حفظ التسجيل";
+    }
+
+    // لوحة المشرف تظهر تلقائيًا لبريد المشرف فقط
+    adminSec.classList.toggle("hidden", !isAdmin);
+    if (isAdmin) startAdmin(); else stopAdmin();
+
+    window.scrollTo({ top: registerSec.offsetTop - 80, behavior: "smooth" });
+  });
+
+  // ===== النموذج =====
+  function prefillForm(r) {
+    selField.value = r.field || "";
+    inpStudent.value = r.studentPhone || "";
+    inpParent.value = r.parentPhone || "";
+    inpNationality.value = r.nationality || "";
+    inpSchool.value = r.school || "";
+    const radio = document.querySelector('input[name="day"][value="' + (r.day || "") + '"]');
+    if (radio) radio.checked = true;
   }
-};
+  function resetForm() {
+    formReg.reset();
+    msgOk.classList.add("hidden");
+    msgErr.classList.add("hidden");
+  }
 
-// استعادة تسجيل الدخول بعد الرجوع من Google Redirect
-auth.getRedirectResult().catch(error => {
-  showError(error.message);
-});
+  function phoneOk(v) {
+    const digits = v.replace(/\D/g, "");
+    return digits.length >= 8 && digits.length <= 15 && /^\+?[\d\s-]{8,18}$/.test(v);
+  }
 
+  formReg.addEventListener("submit", async (ev) => {
+    ev.preventDefault();
+    msgOk.classList.add("hidden");
+    msgErr.classList.add("hidden");
+    if (!currentUser) return;
+
+    const dayEl = document.querySelector('input[name="day"]:checked');
+    const studentPhone = inpStudent.value.trim();
+    const parentPhone  = inpParent.value.trim();
+    const nationality  = inpNationality.value.trim();
+    const school       = inpSchool.value.trim();
+
+    const errors = [];
+    if (!selField.value) errors.push("اختر مجال التعلم.");
+    if (!dayEl) errors.push("اختر اليوم الأسبوعي (الجمعة أو السبت).");
+    if (!phoneOk(studentPhone)) errors.push("رقم الطالب غير صحيح — أدخل رقمًا من 8 إلى 15 رقمًا.");
+    if (!phoneOk(parentPhone))  errors.push("رقم الوالد أو الوالدة غير صحيح — أدخل رقمًا من 8 إلى 15 رقمًا.");
+    if (!nationality) errors.push("اكتب الجنسية.");
+    if (!school) errors.push("اكتب اسم المدرسة.");
+
+    if (errors.length) {
+      msgErr.textContent = "⚠ " + errors.join(" ");
+      msgErr.classList.remove("hidden");
+      msgErr.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+
+    const wasNew = !existing;
+    btnSave.disabled = true;
+    const oldLabel = btnSave.textContent;
+    btnSave.textContent = wasNew ? "جارٍ الحفظ…" : "جارٍ التحديث…";
+
+    const data = {
+      uid: currentUser.uid,
+      email: currentUser.email || "",
+      name: currentUser.displayName || "",
+      field: selField.value,
+      day: dayEl.value,
+      studentPhone: studentPhone,
+      parentPhone: parentPhone,
+      nationality: nationality,
+      school: school,
+      updatedAt: serverTimestamp()
+    };
+    if (wasNew) data.createdAt = serverTimestamp();
+
+    try {
+      await setDoc(doc(db, "registrations", currentUser.uid), data, { merge: true });
+      existing = existing ? Object.assign(existing, data) : data;
+      msgOk.textContent = wasNew
+        ? "✅ تم حفظ تسجيلك بنجاح في مجال «" + data.field + "» — يوم «" + data.day + "». راقب بريدك الإلكتروني، وستصلك تفاصيل الحصة الأولى بعد انطلاق المنصة في 1 ديسمبر."
+        : "✅ تم تحديث بياناتك بنجاح.";
+      msgOk.classList.remove("hidden");
+      alreadyBox.classList.remove("hidden");
+      alreadyBox.textContent = "✅ تسجيلك محفوظ في مجال «" + data.field + "» — يوم «" + data.day + "».";
+      btnSave.textContent = "تحديث البيانات";
+      msgOk.scrollIntoView({ behavior: "smooth", block: "center" });
+    } catch (e) {
+      msgErr.textContent = "⚠ تعذّر حفظ التسجيل: " + ((e && (e.code || e.message)) || "خطأ غير معروف") +
+        " — تأكد من اتصال الإنترنت ومن قواعد أمان Firestore.";
+      msgErr.classList.remove("hidden");
+      btnSave.textContent = oldLabel;
+    } finally {
+      btnSave.disabled = false;
+    }
+  });
+
+  // ===== لوحة المشرف =====
+  function startAdmin() {
+    if (unsubAdmin) return;
+    const q = query(collection(db, "registrations"), orderBy("createdAt", "desc"));
+    unsubAdmin = onSnapshot(q, (snap) => {
+      allRegs = snap.docs.map(d => Object.assign({ id: d.id }, d.data()));
+      renderAdmin();
+    }, (err) => {
+      adminMsg.textContent = "⚠ تعذّر قراءة التسجيلات: " + ((err && err.code) || "") +
+        " — تأكد من نشر قواعد أمان Firestore المرفقة في تعليق الصفحة.";
+      adminMsg.classList.remove("hidden");
+    });
+  }
+  function stopAdmin() {
+    if (unsubAdmin) { unsubAdmin(); unsubAdmin = null; }
+    allRegs = [];
+  }
+
+  function fmtDate(ts) {
+    try {
+      if (!ts || !ts.toDate) return "—";
+      const d = ts.toDate();
+      return d.toLocaleDateString("ar-EG", { year: "numeric", month: "short", day: "numeric" }) +
+        " " + d.toLocaleTimeString("ar-EG", { hour: "2-digit", minute: "2-digit" });
+    } catch (e) { return "—"; }
+  }
+
+  function renderAdmin() {
+    const term = (adminSearch.value || "").trim().toLowerCase();
+    const rows = allRegs.filter(r => {
+      if (!term) return true;
+      return [r.name, r.email, r.field, r.day, r.nationality, r.school, r.studentPhone, r.parentPhone]
+        .some(v => (v || "").toString().toLowerCase().includes(term));
+    });
+
+    adminCount.textContent = String(allRegs.length);
+    adminBody.textContent = "";
+
+    if (rows.length === 0) {
+      const tr = document.createElement("tr");
+      tr.className = "empty-row";
+      const td = document.createElement("td");
+      td.colSpan = 10;
+      td.textContent = term ? "لا توجد نتائج مطابقة للبحث." : "لا توجد تسجيلات بعد.";
+      tr.appendChild(td);
+      adminBody.appendChild(tr);
+      return;
+    }
+
+    rows.forEach((r, i) => {
+      const tr = document.createElement("tr");
+      const cells = [
+        String(i + 1),
+        r.name || "—",
+        r.email || "—",
+        r.field || "—",
+        r.day || "—",
+        r.studentPhone || "—",
+        r.parentPhone || "—",
+        r.nationality || "—",
+        r.school || "—",
+        fmtDate(r.createdAt)
+      ];
+      cells.forEach((c, idx) => {
+        const td = document.createElement("td");
+        if (idx === 3 && r.field) {
+          const b = document.createElement("span");
+          b.className = "f-badge";
+          b.textContent = r.field;
+          td.appendChild(b);
+        } else {
+          td.textContent = c;
+        }
+        tr.appendChild(td);
+      });
+      adminBody.appendChild(tr);
+    });
+  }
+  adminSearch.addEventListener("input", renderAdmin);
+
+  // ===== تصدير CSV =====
+  btnCsv.addEventListener("click", () => {
+    const head = ["م", "الاسم", "البريد الإلكتروني", "المجال", "اليوم", "رقم الطالب", "رقم الوالد/الوالدة", "الجنسية", "المدرسة", "تاريخ التسجيل"];
+    const lines = [head];
+    allRegs.forEach((r, i) => {
+      lines.push([
+        String(i + 1),
+        r.name || "", r.email || "", r.field || "", r.day || "",
+        r.studentPhone || "", r.parentPhone || "",
+        r.nationality || "", r.school || "",
+        fmtDate(r.createdAt)
+      ]);
+    });
+    const csv = "\uFEFF" + lines.map(row => row.map(c => '"' + String(c).replace(/"/g, '""') + '"').join(",")).join("\r\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+    const a = document.createElement("a");
+    const d = new Date();
+    a.href = URL.createObjectURL(blob);
+    a.download = "tianmc-registrations-" + d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0") + ".csv";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 3000);
+  });
+
+  // ===== إنذار لو فشل تحميل Firebase (انترنت/حجب) =====
+  window.__fbTimer = setTimeout(() => {
+    if (!window.__fbReady && netWarn) netWarn.classList.remove("hidden");
+  }, 8000);
 </script>
+
 </body>
 </html>
